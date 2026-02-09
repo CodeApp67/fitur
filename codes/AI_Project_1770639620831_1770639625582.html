@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi To-Do List Modern</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Scrollbar for the list */
+        #taskList {
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+        #taskList::-webkit-scrollbar {
+            width: 8px;
+        }
+        #taskList::-webkit-scrollbar-thumb {
+            background-color: #3b82f6; /* blue-500 */
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 flex items-start justify-center">
+
+    <div class="w-full max-w-lg bg-white shadow-2xl rounded-xl p-6 mt-8">
+        
+        <!-- HEADER -->
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-6 flex items-center">
+            <i data-lucide="clipboard-list" class="w-8 h-8 mr-2 text-blue-600"></i>
+            Daftar Tugas Saya
+        </h1>
+
+        <!-- INPUT FORM -->
+        <form id="taskForm" class="flex mb-6 space-x-2">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="Apa yang perlu dilakukan?" 
+                class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-150 outline-none"
+                required
+            >
+            <button 
+                type="submit" 
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md transition duration-200 flex items-center"
+            >
+                <i data-lucide="plus" class="w-5 h-5"></i>
+            </button>
+        </form>
+
+        <!-- TASK LIST -->
+        <ul id="taskList" class="divide-y divide-gray-200 bg-gray-50 rounded-lg p-3 mb-4">
+            <!-- Tugas akan dimasukkan di sini oleh JavaScript -->
+        </ul>
+
+        <!-- FOOTER / STATUS BAR -->
+        <div class="flex justify-between items-center text-sm text-gray-600 border-t pt-4">
+            <span id="taskCounter" class="font-medium">0 Tugas Aktif</span>
+            <button 
+                id="clearCompletedButton" 
+                class="text-red-500 hover:text-red-700 font-medium transition duration-150 disabled:opacity-50"
+                disabled
+            >
+                Bersihkan Selesai
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Inisialisasi Lucide Icons
+        lucide.createIcons();
+
+        // 1. DOM Elements
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        const taskCounter = document.getElementById('taskCounter');
+        const clearCompletedButton = document.getElementById('clearCompletedButton');
+
+        // 2. Data Structure (Load from localStorage or initialize empty)
+        let tasks = JSON.parse(localStorage.getItem('todoListTasks')) || [];
+
+        // 3. Helper Functions
+        
+        /** Menyimpan array tasks ke Local Storage */
+        const saveTasks = () => {
+            localStorage.setItem('todoListTasks', JSON.stringify(tasks));
+        };
+
+        /** Memperbarui tampilan penghitung dan status tombol clear */
+        const updateStatus = () => {
+            const activeCount = tasks.filter(task => !task.completed).length;
+            const completedCount = tasks.filter(task => task.completed).length;
+            
+            taskCounter.textContent = `${activeCount} Tugas Aktif`;
+            clearCompletedButton.disabled = completedCount === 0;
+        };
+
+        /** Merender (menampilkan) semua tugas ke UI */
+        const renderTasks = () => {
+            taskList.innerHTML = ''; // Kosongkan daftar yang ada
+
+            if (tasks.length === 0) {
+                taskList.innerHTML = '<p class="text-center text-gray-500 py-4">Belum ada tugas. Tambahkan yang baru!</p>';
+            }
+
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.className = `flex justify-between items-center p-3 rounded-lg hover:bg-white transition duration-150 ${task.completed ? 'opacity-60 line-through text-gray-500' : 'text-gray-800'}`;
+                li.setAttribute('data-id', task.id);
+
+                const taskText = document.createElement('span');
+                taskText.className = 'flex-grow cursor-pointer';
+                taskText.textContent = task.text;
+                taskText.onclick = () => toggleComplete(task.id);
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'flex items-center space-x-2 ml-4';
+
+                // Tombol Toggle (menggunakan ikon check)
+                const toggleButton = document.createElement('button');
+                toggleButton.className = `p-1 rounded-full hover:bg-gray-200 transition duration-150`;
+                toggleButton.innerHTML = `<i data-lucide="${task.completed ? 'check-circle' : 'circle'}" class="w-5 h-5 ${task.completed ? 'text-blue-500' : 'text-gray-400'}"></i>`;
+                toggleButton.onclick = () => toggleComplete(task.id);
+
+                // Tombol Delete
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition duration-150';
+                deleteButton.innerHTML = '<i data-lucide="trash-2" class="w-5 h-5"></i>';
+                deleteButton.onclick = () => deleteTask(task.id);
+                
+                actionsDiv.appendChild(toggleButton);
+                actionsDiv.appendChild(deleteButton);
+
+                li.appendChild(taskText);
+                li.appendChild(actionsDiv);
+                taskList.appendChild(li);
+            });
+            
+            // Re-render Lucide Icons for newly created elements
+            lucide.createIcons();
+            
+            updateStatus();
+        };
+
+        // 4. Core Logic Functions
+
+        /** Menambahkan tugas baru */
+        const addTask = (text) => {
+            if (text.trim() === "") return;
+
+            const newTask = {
+                id: Date.now(), // Unique ID
+                text: text.trim(),
+                completed: false
+            };
+
+            tasks.push(newTask);
+            taskInput.value = ''; // Kosongkan input
+            saveTasks();
+            renderTasks();
+        };
+
+        /** Mengubah status completed/incomplete */
+        const toggleComplete = (id) => {
+            tasks = tasks.map(task => 
+                task.id === id ? { ...task, completed: !task.completed } : task
+            );
+            saveTasks();
+            renderTasks();
+        };
+
+        /** Menghapus tugas berdasarkan ID */
+        const deleteTask = (id) => {
+            // Konfirmasi (opsional, tapi disarankan)
+            if (!confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
+                return;
+            }
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks();
+            renderTasks();
+        };
+
+        /** Menghapus semua tugas yang telah selesai */
+        const clearCompleted = () => {
+             if (!confirm("Hapus semua tugas yang sudah selesai?")) {
+                return;
+            }
+            tasks = tasks.filter(task => !task.completed);
+            saveTasks();
+            renderTasks();
+        };
+
+        // 5. Event Listeners
+
+        // Event: Tambah Tugas
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            addTask(taskInput.value);
+        });
+
+        // Event: Bersihkan Tugas Selesai
+        clearCompletedButton.addEventListener('click', clearCompleted);
+
+        // 6. Initialization
+        renderTasks();
+
+    </script>
+</body>
+</html>
