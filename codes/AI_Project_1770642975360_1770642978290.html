@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Task Manager</title>
+    
+    <!-- Google Fonts: Space Grotesk (Headline) & Inter (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* 1. Custom Properties for Theming */
+        :root {
+            --color-dark-bg: #0f172a;
+            --color-primary: #6366f1; /* Indigo */
+            --color-secondary: #10b981; /* Emerald */
+            --color-text-muted: #94a3b8;
+            --color-glass-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 2. Custom Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            background-image: radial-gradient(at 0% 0%, #1e3a8a 0%, transparent 50%),
+                              radial-gradient(at 100% 100%, #16a34a 0%, transparent 60%);
+            background-attachment: fixed;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        h1, h2 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .task-item {
+            animation: slideUp 0.5s ease-out;
+            transform-origin: top;
+        }
+
+        /* 3. Button Micro-Interaction */
+        .btn-interact:active {
+            transform: scale(0.98);
+        }
+
+        /* 4. Glassmorphism effect applied via Tailwind, but base styles set here */
+        .glass-card {
+            background-color: var(--color-glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': 'var(--color-primary)',
+                        'secondary': 'var(--color-secondary)',
+                        'dark-bg': 'var(--color-dark-bg)',
+                        'muted': 'var(--color-text-muted)',
+                    },
+                    fontFamily: {
+                        headline: ['Space Grotesk', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'slide-in': 'slideUp 0.5s ease-out',
+                        'scale-up': 'scaleUp 0.3s ease-out',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleUp: {
+                            '0%': { transform: 'scale(0.95)' },
+                            '100%': { transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="lucide.createIcons()">
+
+    <main class="w-full max-w-4xl p-6 lg:p-10">
+
+        <!-- Header -->
+        <header class="text-center mb-12 animate-slide-in">
+            <h1 class="text-5xl lg:text-6xl font-headline font-bold text-white tracking-tight">
+                Quantum <span class="text-primary">Task</span> Manager
+            </h1>
+            <p class="mt-3 text-lg text-muted">Organisasi yang revolusioner. Lakukan lebih banyak, dengan lebih tenang.</p>
+        </header>
+
+        <!-- Main Task Container (Glassmorphism) -->
+        <section id="app-container" class="glass-card rounded-2xl p-6 md:p-8 transition duration-500 hover:shadow-xl">
+            
+            <!-- Input Area -->
+            <form id="task-form" class="flex flex-col md:flex-row gap-4 mb-8">
+                <input 
+                    type="text" 
+                    id="new-task-input" 
+                    placeholder="Apa yang perlu diselesaikan hari ini? (Max 75 karakter)"
+                    maxlength="75"
+                    required 
+                    class="flex-grow p-4 rounded-xl bg-white/10 text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-secondary border border-white/10 transition duration-300 shadow-inner"
+                >
+                <button 
+                    type="submit" 
+                    class="btn-interact bg-primary hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center justify-center text-lg whitespace-nowrap"
+                >
+                    <i data-lucide="plus" class="w-5 h-5 mr-2"></i> Tambahkan
+                </button>
+            </form>
+
+            <!-- Task List Area -->
+            <div id="task-list" class="space-y-4">
+                <!-- Tasks will be injected here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="text-center py-12 hidden">
+                <i data-lucide="check-circle" class="w-12 h-12 mx-auto text-secondary mb-3 opacity-70"></i>
+                <p class="text-xl font-headline text-white/80">Semua tugas selesai! Saatnya istirahat.</p>
+                <p class="text-sm text-muted mt-1">Tambahkan tugas baru untuk memulai kembali.</p>
+            </div>
+            
+            <!-- Stats -->
+            <div class="mt-8 pt-4 border-t border-white/10 flex justify-between items-center text-sm text-muted">
+                <span id="total-tasks-stat">Total Tasks: 0</span>
+                <button id="clear-completed-btn" class="text-red-400 hover:text-red-500 transition duration-300 flex items-center opacity-70 hover:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed">
+                    <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Bersihkan Selesai
+                </button>
+            </div>
+            
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-10 text-center text-sm text-muted opacity-80">
+        <p>&copy; 2024 Quantum Systems. Designed with Lucide & Tailwind CSS.</p>
+    </footer>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        const taskForm = document.getElementById('task-form');
+        const taskList = document.getElementById('task-list');
+        const newTaskInput = document.getElementById('new-task-input');
+        const emptyState = document.getElementById('empty-state');
+        const totalTasksStat = document.getElementById('total-tasks-stat');
+        const clearCompletedBtn = document.getElementById('clear-completed-btn');
+
+        let tasks = [];
+
+        // 1. Initialization and Data Loading
+        const loadTasks = () => {
+            const storedTasks = localStorage.getItem('quantumTasks');
+            if (storedTasks) {
+                tasks = JSON.parse(storedTasks);
+            }
+            renderTasks();
+        };
+
+        const saveTasks = () => {
+            localStorage.setItem('quantumTasks', JSON.stringify(tasks));
+            updateStats();
+        };
+
+        const updateStats = () => {
+            totalTasksStat.textContent = `Total Tasks: ${tasks.length}`;
+            const completedCount = tasks.filter(t => t.completed).length;
+            
+            clearCompletedBtn.disabled = completedCount === 0;
+
+            if (tasks.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+        };
+
+        // 2. Rendering Functions
+        const renderTask = (task) => {
+            const li = document.createElement('li');
+            li.id = `task-${task.id}`;
+            li.classList.add(
+                'task-item', 
+                'glass-card', 
+                'p-4', 
+                'rounded-xl', 
+                'flex', 
+                'items-center', 
+                'justify-between', 
+                'transition-all', 
+                'duration-300', 
+                'hover:shadow-lg',
+                'border-white/5'
+            );
+
+            const isCompletedClass = task.completed 
+                ? 'text-muted line-through opacity-70' 
+                : 'text-white font-body';
+
+            li.innerHTML = `
+                <div class="flex items-center flex-grow min-w-0">
+                    <input 
+                        type="checkbox" 
+                        id="checkbox-${task.id}" 
+                        data-id="${task.id}" 
+                        ${task.completed ? 'checked' : ''} 
+                        class="h-5 w-5 rounded border-gray-300 text-secondary focus:ring-secondary mr-4 cursor-pointer transform scale-110 transition duration-150"
+                    >
+                    <span class="truncate ${isCompletedClass} text-lg transition-colors duration-300">
+                        ${task.text}
+                    </span>
+                </div>
+                <button 
+                    data-id="${task.id}" 
+                    data-action="delete"
+                    class="btn-interact ml-4 text-red-500 hover:text-red-400 transition duration-200 p-2 rounded-full hover:bg-white/10"
+                >
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            `;
+            
+            // Re-render lucide icons inside the new list item
+            lucide.createIcons();
+
+            return li;
+        };
+
+        const renderTasks = () => {
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                taskList.appendChild(renderTask(task));
+            });
+            updateStats();
+        };
+
+        // 3. Core Task Actions
+        const addTask = (text) => {
+            const newTask = {
+                id: Date.now(),
+                text: text.trim(),
+                completed: false
+            };
+            tasks.unshift(newTask); // Add to the top
+            saveTasks();
+            
+            // Render the new task and prepend it smoothly
+            const taskElement = renderTask(newTask);
+            taskList.prepend(taskElement);
+            
+            // Clear input and refocus
+            newTaskInput.value = '';
+            newTaskInput.focus();
+        };
+
+        const toggleTask = (id) => {
+            const taskIndex = tasks.findIndex(t => t.id == id);
+            if (taskIndex > -1) {
+                tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                saveTasks();
+                renderTasks(); // Re-render to apply styling changes
+            }
+        };
+
+        const deleteTask = (id) => {
+            const taskElement = document.getElementById(`task-${id}`);
+            if (taskElement) {
+                // Apply subtle fade-out animation before removal
+                taskElement.style.maxHeight = taskElement.offsetHeight + 'px';
+                taskElement.style.opacity = 1;
+
+                setTimeout(() => {
+                    taskElement.style.transition = 'opacity 0.3s ease-out, max-height 0.3s ease-out, transform 0.3s ease-out';
+                    taskElement.style.opacity = 0;
+                    taskElement.style.maxHeight = '0px';
+                    taskElement.style.paddingTop = '0px';
+                    taskElement.style.paddingBottom = '0px';
+                    taskElement.style.transform = 'translateX(-10px)';
+                }, 10); // Small delay to register style change
+
+                setTimeout(() => {
+                    tasks = tasks.filter(t => t.id != id);
+                    saveTasks();
+                    renderTasks(); // Re-render to ensure list continuity
+                }, 350); 
+            }
+        };
+
+        const clearCompletedTasks = () => {
+             const completedTasks = tasks.filter(t => t.completed);
+             if(completedTasks.length > 0) {
+                 if (confirm(`Yakin ingin menghapus ${completedTasks.length} tugas yang telah selesai?`)) {
+                    tasks = tasks.filter(t => !t.completed);
+                    saveTasks();
+                    renderTasks();
+                 }
+             }
+        };
+
+        // 4. Event Listeners
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = newTaskInput.value;
+            if (text) {
+                addTask(text);
+            }
+        });
+
+        taskList.addEventListener('click', (e) => {
+            const target = e.target;
+            const action = target.closest('[data-action]');
+            const checkbox = target.closest('input[type="checkbox"]');
+
+            if (checkbox) {
+                toggleTask(checkbox.dataset.id);
+            } else if (action && action.dataset.action === 'delete') {
+                deleteTask(action.dataset.id);
+            }
+        });
+
+        clearCompletedBtn.addEventListener('click', clearCompletedTasks);
+
+        // Run on load
+        loadTasks();
+
+    </script>
+
+</body>
+</html>
