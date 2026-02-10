@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcana Naga: Blog Mitologi dan Legenda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Scrollbar for better UX */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; /* Dark Blue */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9; /* Sky Blue */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Custom fonts defined in CSS */
+        .font-heading {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Dark Mode Transition */
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#0f172a', /* Slate 900 */
+                        'secondary-dark': '#1e293b', /* Slate 800 */
+                        'accent-blue': '#0ea5e9', /* Sky 500 */
+                        'accent-cyan': '#22d3ee', /* Cyan 400 */
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body bg-primary-dark text-gray-200 antialiased">
+
+    <!-- Lucide Icons Setup -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Check local storage for dark mode preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+        // Global state for posts data
+        const allPosts = [
+            { id: 1, title: "Naga Air: Penguasa Samudra dan Badai", category: "Elemental", summary: "Menganalisis kekuatan dan simbolisme Raja Naga Lautan dalam mitologi Asia Timur.", date: "15 Mei 2024", author: "Elara V.", tags: ["Air", "Asia", "Mitologi"], img: "https://picsum.photos/800/500?random=1", alt: "Lukisan naga air Tiongkok kuno dengan ombak besar di latar belakang" },
+            { id: 2, title: "Sejarah Evolusi Citra Naga di Eropa", category: "Sejarah", summary: "Dari Leviathan hingga Wyvern, bagaimana naga Barat berevolusi dari ancaman menjadi simbol kekuasaan.", date: "10 Mei 2024", author: "Kaelan D.", tags: ["Eropa", "Sejarah", "Wyvern"], img: "https://picsum.photos/800/500?random=2", alt: "Patung ksatria bertarung melawan wyvern bernapas api di Eropa" },
+            { id: 3, title: "Perbedaan Fisiologis Antara Naga vs Wyvern", category: "Biologi Fantasi", summary: "Tinjauan mendalam pada anatomi fantastis: kaki, sayap, dan kelenjar api.", date: "05 Mei 2024", author: "Draco P.", tags: ["Anatomi", "Wyvern", "Klasifikasi"], img: "https://picsum.photos/800/500?random=3", alt: "Ilustrasi komparatif anatomi naga empat kaki dan wyvern dua kaki" },
+            { id: 4, title: "10 Artefak Naga Paling Legendaris", category: "Artefak", summary: "Mencari tongkat kerajaan, sisik pelindung, dan harta karun lain yang terkait dengan naga.", date: "01 Mei 2024", author: "Elara V.", tags: ["Harta", "Legenda", "Sihir"], img: "https://picsum.photos/800/500?random=4", alt: "Artefak kuno berbentuk cakar naga di atas alas batu" },
+            { id: 5, title: "Naga Emas Tiongkok: Simbol Kekaisaran", category: "Asia", summary: "Kisah di balik Naga Kuning (Huang Long) dan kaitannya dengan Dinasti Tiongkok.", date: "25 April 2024", author: "Mei Ling", tags: ["Kaisar", "Tiongkok", "Simbol"], img: "https://picsum.photos/800/500?random=5", alt: "Lukisan naga emas Tiongkok melayang di awan keberuntungan" },
+        ];
+    </script>
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-primary-dark/90 shadow-lg border-b border-secondary-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <i data-lucide="dragon" class="w-6 h-6 text-accent-blue"></i>
+                    <span class="font-heading text-2xl font-black text-gray-100">Arcana Naga</span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#home" class="text-gray-300 hover:text-accent-cyan transition duration-200">Beranda</a>
+                    <a href="#featured" class="text-gray-300 hover:text-accent-cyan transition duration-200">Terbaru</a>
+                    <a href="#lore" class="text-gray-300 hover:text-accent-cyan transition duration-200">Tipe Naga</a>
+                    <a href="#contact" class="text-gray-300 hover:text-accent-cyan transition duration-200">Kontak</a>
+                </nav>
+
+                <!-- Search & Actions -->
+                <div class="flex items-center space-x-4">
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-secondary-dark transition duration-200">
+                        <i data-lucide="sun" id="sunIcon" class="w-5 h-5 text-yellow-500 hidden"></i>
+                        <i data-lucide="moon" id="moonIcon" class="w-5 h-5 text-gray-400"></i>
+                    </button>
+                    <button id="mobileMenuButton" class="md:hidden p-2 rounded-full hover:bg-secondary-dark">
+                        <i data-lucide="menu" class="w-6 h-6 text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="md:hidden hidden bg-secondary-dark/95 border-t border-primary-dark shadow-xl">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="#home" class="py-2 px-3 text-base font-medium text-accent-cyan hover:bg-primary-dark rounded-md">Beranda</a>
+                <a href="#featured" class="py-2 px-3 text-base font-medium text-gray-300 hover:bg-primary-dark rounded-md">Terbaru</a>
+                <a href="#lore" class="py-2 px-3 text-base font-medium text-gray-300 hover:bg-primary-dark rounded-md">Tipe Naga</a>
+                <a href="#contact" class="py-2 px-3 text-base font-medium text-gray-300 hover:bg-primary-dark rounded-md">Kontak</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <!-- Section 1: Hero & Featured Post -->
+        <section id="home" class="mb-16">
+            <div class="text-center mb-12">
+                <h1 class="font-heading text-5xl sm:text-7xl font-extrabold leading-tight">
+                    <span class="text-gradient">Legenda</span> Abadi, Kekuatan Tak Terbatas
+                </h1>
+                <p class="mt-4 text-xl text-gray-400 max-w-3xl mx-auto">
+                    Jelajahi kedalaman mitologi, sejarah, dan biologi fantasi makhluk paling agung: Naga.
+                </p>
+            </div>
+
+            <!-- Featured Article Card -->
+            <div class="relative overflow-hidden rounded-xl shadow-2xl group bg-secondary-dark">
+                <img src="https://media.istockphoto.com/id/1391718981/photo/portrait-of-a-confident-young-businessman-standing-with-his-arms-crossed-in-an-office.jpg?s=612x612&w=0&k=20&c=eF_0QCtw-Y8Q2c4_xQe6KTkcSPiGCT6qBf6nuavE2Dg="
+                     alt="Lukisan epik seekor naga air dengan sisik biru berkilauan melayang di atas laut badai"
+                     class="w-full h-80 object-cover opacity-70 group-hover:opacity-100 transition duration-500 ease-in-out transform group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-primary-dark/80 via-transparent to-transparent"></div>
+
+                <div class="p-6 sm:p-10 absolute bottom-0 left-0 right-0">
+                    <span class="bg-accent-blue/20 text-accent-cyan text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Eksklusif
+                    </span>
+                    <h2 class="font-heading text-4xl mt-3 font-bold text-gray-50 drop-shadow-lg">
+                        Naga Air: Penguasa Samudra dan Badai
+                    </h2>
+                    <p class="mt-2 text-gray-300 max-w-xl hidden sm:block">
+                        Menganalisis kekuatan dan simbolisme Raja Naga Lautan (Ao Guang) yang legendaris dalam mitologi Asia Timur, yang mengatur hujan dan arus laut.
+                    </p>
+                    <a href="#" class="mt-4 inline-flex items-center text-accent-cyan font-semibold hover:text-white transition duration-200">
+                        Baca Selengkapnya
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Blog Posts & Sidebar -->
+        <section id="featured" class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+            <!-- Main Blog Content (2/3 width) -->
+            <div class="lg:col-span-2 space-y-12">
+                <h3 class="font-heading text-3xl font-bold border-b border-secondary-dark pb-3 text-gray-100">Artikel Terbaru</h3>
+
+                <!-- Post List Container -->
+                <div id="postsContainer" class="space-y-8">
+                    <!-- Posts will be injected here by JS -->
+                </div>
+            </div>
+
+            <!-- Sidebar (1/3 width) -->
+            <aside class="lg:col-span-1 space-y-10">
+
+                <!-- Search Widget -->
+                <div class="bg-secondary-dark p-6 rounded-xl shadow-xl">
+                    <h4 class="font-heading text-xl font-bold mb-4 text-gray-100">Cari Arcana</h4>
+                    <div class="relative">
+                        <input type="text" id="searchBar" placeholder="Cari berdasarkan judul atau tag..."
+                               class="w-full py-3 pl-10 pr-4 bg-primary-dark border border-gray-700 rounded-lg focus:ring-accent-blue focus:border-accent-blue text-gray-200 transition duration-200">
+                        <i data-lucide="search" class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                    </div>
+                </div>
+
+                <!-- Tabbed Lore Widget (Interactive Feature) -->
+                <div class="bg-secondary-dark p-6 rounded-xl shadow-xl">
+                    <h4 class="font-heading text-xl font-bold mb-4 text-gray-100">Kategori Utama</h4>
+                    
+                    <!-- Tabs Navigation -->
+                    <div class="flex border-b border-gray-700 mb-4">
+                        <button id="tab-myth" onclick="switchTab('myth')"
+                                class="tab-button px-4 py-2 text-sm font-medium border-b-2 border-accent-blue text-accent-cyan hover:text-white transition duration-200">
+                                Mitologi
+                        </button>
+                        <button id="tab-bio" onclick="switchTab('bio')"
+                                class="tab-button px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition duration-200">
+                                Biologi Fantasi
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div id="content-myth" class="tab-content text-sm space-y-3">
+                        <p class="text-gray-400">Jelajahi peran naga sebagai dewa, penjaga harta, atau simbol kekaisaran di berbagai budaya dunia.</p>
+                        <ul class="space-y-1 list-disc list-inside text-gray-300">
+                            <li>Naga Tiongkok & Kekaisaran (12)</li>
+                            <li>Naga Eropa & Ksatria (8)</li>
+                            <li>Legenda Naga Mesoamerika (4)</li>
+                        </ul>
+                    </div>
+                    <div id="content-bio" class="tab-content text-sm space-y-3 hidden">
+                        <p class="text-gray-400">Analisis fiktif tentang anatomi, diet, dan siklus hidup naga, wyvern, dan drakes.</p>
+                        <ul class="space-y-1 list-disc list-inside text-gray-300">
+                            <li>Anatomi Pernapasan Api (6)</li>
+                            <li>Siklus Hidup Sisik (3)</li>
+                            <li>Klasifikasi Elemental (5)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="bg-accent-blue/10 p-6 rounded-xl shadow-xl border border-accent-blue/30">
+                    <h4 class="font-heading text-2xl font-bold mb-3 text-accent-cyan">Bergabunglah dengan Arcana</h4>
+                    <p class="text-sm text-gray-300 mb-4">Dapatkan wawasan mingguan langsung tentang mitologi naga terbaru.</p>
+                    <form id="newsletterForm" class="space-y-3">
+                        <input type="email" placeholder="Email Anda" required
+                               class="w-full py-2 px-3 bg-secondary-dark border border-gray-600 rounded-lg text-gray-100 focus:ring-accent-blue focus:border-accent-blue">
+                        <button type="submit" class="w-full py-2 bg-accent-blue text-primary-dark font-bold rounded-lg hover:bg-accent-cyan transition duration-300 flex items-center justify-center">
+                            Daftar Sekarang
+                            <i data-lucide="mail" class="w-4 h-4 ml-2"></i>
+                        </button>
+                        <p id="newsletterMessage" class="text-center text-sm mt-2 hidden text-green-400"></p>
+                    </form>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Section 3: Elemental Lore (Grid of Types) -->
+        <section id="lore" class="py-20">
+            <h3 class="font-heading text-4xl font-bold text-center mb-12 text-gray-100">Empat Pilar Kekuatan Elemental</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Water -->
+                <div class="bg-secondary-dark p-6 rounded-xl shadow-2xl hover:shadow-accent-blue/30 transition duration-300 border-t-4 border-accent-blue group">
+                    <i data-lucide="droplets" class="w-8 h-8 text-accent-blue mb-3 group-hover:scale-110 transition"></i>
+                    <h4 class="font-heading text-2xl font-bold mb-2 text-gray-100">Naga Air</h4>
+                    <p class="text-sm text-gray-400">Simbol adaptasi dan perubahan, mengatur lautan dan cuaca hujan.</p>
+                    <a href="#" class="mt-3 text-sm font-semibold text-accent-cyan hover:underline inline-block">Selengkapnya</a>
+                </div>
+
+                <!-- Card 2: Fire -->
+                <div class="bg-secondary-dark p-6 rounded-xl shadow-2xl hover:shadow-red-700/30 transition duration-300 border-t-4 border-red-600 group">
+                    <i data-lucide="flame" class="w-8 h-8 text-red-500 mb-3 group-hover:scale-110 transition"></i>
+                    <h4 class="font-heading text-2xl font-bold mb-2 text-gray-100">Naga Api</h4>
+                    <p class="text-sm text-gray-400">Melambangkan kehancuran, gairah, dan kekayaan yang tak terukur.</p>
+                    <a href="#" class="mt-3 text-sm font-semibold text-red-400 hover:underline inline-block">Selengkapnya</a>
+                </div>
+
+                <!-- Card 3: Earth -->
+                <div class="bg-secondary-dark p-6 rounded-xl shadow-2xl hover:shadow-green-700/30 transition duration-300 border-t-4 border-green-700 group">
+                    <i data-lucide="mountain" class="w-8 h-8 text-green-600 mb-3 group-hover:scale-110 transition"></i>
+                    <h4 class="font-heading text-2xl font-bold mb-2 text-gray-100">Naga Tanah</h4>
+                    <p class="text-sm text-gray-400">Penjaga gua dan harta karun di bawah bumi, mewakili stabilitas.</p>
+                    <a href="#" class="mt-3 text-sm font-semibold text-green-500 hover:underline inline-block">Selengkapnya</a>
+                </div>
+
+                <!-- Card 4: Wind/Air -->
+                <div class="bg-secondary-dark p-6 rounded-xl shadow-2xl hover:shadow-gray-400/30 transition duration-300 border-t-4 border-gray-400 group">
+                    <i data-lucide="wind" class="w-8 h-8 text-gray-300 mb-3 group-hover:scale-110 transition"></i>
+                    <h4 class="font-heading text-2xl font-bold mb-2 text-gray-100">Naga Angin</h4>
+                    <p class="text-sm text-gray-400">Cepat dan sulit ditangkap, mengendalikan badai dan langit.</p>
+                    <a href="#" class="mt-3 text-sm font-semibold text-gray-300 hover:underline inline-block">Selengkapnya</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-secondary-dark border-t border-primary-dark mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                
+                <!-- Logo & Description -->
+                <div class="col-span-2 md:col-span-2">
+                    <a href="#" class="flex items-center space-x-2 mb-3">
+                        <i data-lucide="dragon" class="w-6 h-6 text-accent-blue"></i>
+                        <span class="font-heading text-xl font-black text-gray-100">Arcana Naga</span>
+                    </a>
+                    <p class="text-sm text-gray-400 max-w-xs">
+                        Sumber terpercaya Anda untuk semua yang fantastis dan legendaris tentang Naga di seluruh dunia.
+                    </p>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h5 class="font-semibold text-gray-100 mb-3">Jelajahi</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-accent-cyan">Mitologi Asia</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent-cyan">Naga Barat</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent-cyan">Anatomi Fantasi</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h5 class="font-semibold text-gray-100 mb-3">Tentang</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-accent-cyan">Tim Penulis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent-cyan">Karir</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent-cyan">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h5 class="font-semibold text-gray-100 mb-3">Ikuti Kami</h5>
+                    <div class="flex space-x-3">
+                        <a href="#" class="text-gray-400 hover:text-accent-blue"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent-blue"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent-blue"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 pt-6 border-t border-primary-dark text-center">
+                <p class="text-sm text-gray-500">
+                    &copy; 2024 Arcana Naga. Semua hak cipta dilindungi. Dibuat dengan fantasi tak terbatas.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderPosts(allPosts);
+            initializeDarkMode();
+            
+            // Event Listeners
+            document.getElementById('mobileMenuButton').addEventListener('click', toggleMobileMenu);
+            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('searchBar').addEventListener('input', handleSearch);
+            document.getElementById('newsletterForm').addEventListener('submit', handleNewsletterSubmit);
+        });
+
+        // --- Core Functions ---
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function initializeDarkMode() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+
+            if (isDark) {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            initializeDarkMode(); // Update icons immediately
+        }
+
+        function switchTab(tabName) {
+            // Hide all content and reset button styles
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('border-accent-blue', 'text-accent-cyan');
+                button.classList.add('border-transparent', 'text-gray-400');
+            });
+
+            // Show selected content and set active button style
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            const activeButton = document.getElementById(`tab-${tabName}`);
+            activeButton.classList.add('border-accent-blue', 'text-accent-cyan');
+            activeButton.classList.remove('border-transparent', 'text-gray-400');
+        }
+
+        function renderPosts(posts) {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = ''; // Clear previous results
+
+            if (posts.length === 0) {
+                container.innerHTML = `<p class="text-gray-400 text-center py-8 bg-secondary-dark rounded-xl">Tidak ada artikel yang ditemukan yang cocok dengan kriteria pencarian Anda.</p>`;
+                return;
+            }
+
+            posts.forEach(post => {
+                const tagsHtml = post.tags.map(tag => 
+                    `<span class="text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full">${tag}</span>`
+                ).join('');
+
+                const postHtml = `
+                    <article class="bg-secondary-dark rounded-xl shadow-lg overflow-hidden flex flex-col sm:flex-row transition duration-300 hover:shadow-accent-blue/20">
+                        <div class="sm:w-1/3 flex-shrink-0">
+                            <img src="${post.img}" 
+                                 alt="${post.alt}" 
+                                 class="w-full h-48 sm:h-full object-cover">
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-accent-cyan">${post.category}</span>
+                                <span class="text-xs text-gray-500">• ${post.date}</span>
+                            </div>
+                            <h4 class="font-heading text-2xl font-bold text-gray-100 mb-3 hover:text-accent-cyan transition duration-200 cursor-pointer">
+                                ${post.title}
+                            </h4>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                ${post.summary}
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${tagsHtml}
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-500">Oleh: ${post.author}</span>
+                                <a href="#" class="text-accent-blue hover:text-white font-medium flex items-center">
+                                    Baca
+                                    <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+                container.insertAdjacentHTML('beforeend', postHtml);
+            });
+            // Re-render lucide icons inside newly injected content
+            lucide.createIcons();
+        }
+
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase();
+            const filteredPosts = allPosts.filter(post => {
+                // Check title
+                if (post.title.toLowerCase().includes(query)) return true;
+                // Check summary
+                if (post.summary.toLowerCase().includes(query)) return true;
+                // Check tags
+                if (post.tags.some(tag => tag.toLowerCase().includes(query))) return true;
+                return false;
+            });
+            renderPosts(filteredPosts);
+        }
+
+        function handleNewsletterSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const messageElement = document.getElementById('newsletterMessage');
+            
+            // Simple validation
+            const emailInput = form.querySelector('input[type="email"]');
+            if (!emailInput.value || !emailInput.checkValidity()) {
+                messageElement.textContent = "Email tidak valid.";
+                messageElement.classList.remove('hidden', 'text-green-400');
+                messageElement.classList.add('text-red-400');
+                return;
+            }
+
+            // Simulate API submission delay
+            messageElement.textContent = "Mengirim...";
+            messageElement.classList.remove('hidden', 'text-red-400');
+            messageElement.classList.add('text-green-400');
+
+            setTimeout(() => {
+                messageElement.textContent = `Terima kasih! Email ${emailInput.value} telah didaftarkan. Anda kini siap menerima berita naga!`;
+                form.reset();
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>
