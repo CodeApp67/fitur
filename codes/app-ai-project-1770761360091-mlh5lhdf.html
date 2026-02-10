@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megawati Soekarnoputri | Blog Kepresidenan RI ke-5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins (Sans for body) and Merriweather (Serif for headings) -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-red: #C0392B; /* Merah Bendera Indonesia */
+            --secondary-gold: #FFD700; /* Emas untuk aksen */
+            --bg-light: #FDFDFD;
+        }
+        .font-sans { font-family: 'Poppins', sans-serif; }
+        .font-serif { font-family: 'Merriweather', serif; }
+        .bg-primary { background-color: var(--primary-red); }
+        .text-primary { color: var(--primary-red); }
+        .border-primary { border-color: var(--primary-red); }
+        
+        .card-hover:hover {
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1), 0 5px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-3px);
+            transition: all 0.3s ease-in-out;
+        }
+        /* Custom scrollbar style for timeline */
+        .timeline-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .timeline-scroll::-webkit-scrollbar-thumb {
+            background-color: var(--primary-red);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-bg-light">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Title -->
+                <a href="#" class="flex items-center space-x-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Indonesian_President_Seal_color.svg/960px-Indonesian_President_Seal_color.svg.png" 
+                         alt="Lambang Kepresidenan" class="h-8 w-8">
+                    <span class="font-serif text-xl font-bold text-primary hidden sm:block">MEGAWATI S.P.</span>
+                    <span class="font-serif text-xl font-bold text-primary block sm:hidden">RI Ke-5</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#profil" class="text-gray-600 hover:text-primary transition duration-150 font-medium">Profil</a>
+                    <a href="#blog" class="text-gray-600 hover:text-primary transition duration-150 font-medium">Artikel Terbaru</a>
+                    <a href="#kebijakan" class="text-gray-600 hover:text-primary transition duration-150 font-medium">Kebijakan</a>
+                    <a href="#galeri" class="text-gray-600 hover:text-primary transition duration-150 font-medium">Galeri</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-100 transition duration-150">
+                    <i data-lucide="menu" class="h-6 w-6 text-gray-700"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-white shadow-lg border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#profil" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Profil</a>
+                <a href="#blog" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Artikel Terbaru</a>
+                <a href="#kebijakan" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Kebijakan</a>
+                <a href="#galeri" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Galeri</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden pt-10 pb-20 md:py-24 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10">
+            <!-- Text Content -->
+            <div class="md:w-1/2 z-10 text-center md:text-left">
+                <p class="text-lg text-primary font-semibold mb-2 flex items-center justify-center md:justify-start">
+                    <i data-lucide="crown" class="h-5 w-5 mr-2 fill-current"></i> Presiden Republik Indonesia ke-5
+                </p>
+                <h1 class="font-serif text-5xl md:text-7xl font-extrabold leading-tight text-gray-900 mb-4">
+                    Megawati<br>Soekarnoputri
+                </h1>
+                <p class="text-xl text-gray-600 mb-6 max-w-lg mx-auto md:mx-0">
+                    Mencatat sejarah sebagai Presiden wanita pertama Indonesia. Sebuah perjalanan kepemimpinan di era reformasi yang penuh tantangan.
+                </p>
+                <a href="#blog" class="inline-flex items-center px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition duration-300">
+                    Baca Artikel Terbaru <i data-lucide="arrow-right" class="h-5 w-5 ml-2"></i>
+                </a>
+            </div>
+
+            <!-- Image Content -->
+            <div class="md:w-1/2 relative mt-8 md:mt-0 flex justify-center">
+                <!-- Image URL: #4 - Presiden Megawati Soekarnoputri official portrait -->
+                <div class="w-64 h-96 sm:w-80 sm:h-[480px] bg-white p-4 rounded-xl shadow-[0_20px_50px_rgba(192,57,43,0.3)] transform rotate-3 hover:rotate-0 transition duration-500 ease-in-out">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/President_Megawati_Sukarnoputri_-_Indonesia.jpg/1200px-President_Megawati_Sukarnoputri_-_Indonesia.jpg" 
+                         alt="Potret Resmi Presiden Megawati Soekarnoputri" 
+                         class="w-full h-full object-cover rounded-lg">
+                </div>
+            </div>
+        </div>
+        <!-- Decorative element (Pancasila Shield concept) -->
+        <div class="absolute bottom-0 left-0 w-full h-1/4 bg-primary opacity-5"></div>
+    </header>
+
+    <!-- Section: Profil Singkat -->
+    <section id="profil" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center font-serif text-4xl font-bold mb-4">Profil Kepemimpinan</h2>
+            <p class="text-center text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+                Lahir dari keluarga proklamator, Megawati memimpin Indonesia di masa transisi krusial (2001-2004), fokus pada stabilitas ekonomi dan konsolidasi demokrasi.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Stabilitas Ekonomi -->
+                <div class="p-6 bg-gray-50 rounded-xl border border-gray-200 text-center card-hover">
+                    <i data-lucide="building-2" class="h-10 w-10 mx-auto mb-4 text-primary"></i>
+                    <h3 class="font-semibold text-xl mb-2 font-serif">Konsolidasi Negara</h3>
+                    <p class="text-gray-600">Fokus pada restrukturisasi utang luar negeri (IMF) dan peningkatan penerimaan negara melalui divestasi aset strategis.</p>
+                </div>
+                <!-- Card 2: Demokrasi -->
+                <div class="p-6 bg-gray-50 rounded-xl border border-gray-200 text-center card-hover">
+                    <i data-lucide="users" class="h-10 w-10 mx-auto mb-4 text-primary"></i>
+                    <h3 class="font-semibold text-xl mb-2 font-serif">Pemilu Langsung</h3>
+                    <p class="text-gray-600">Memfasilitasi langkah penting menuju Pemilu 2004, di mana rakyat dapat memilih presiden secara langsung untuk pertama kalinya.</p>
+                </div>
+                <!-- Card 3: Kebudayaan -->
+                <div class="p-6 bg-gray-50 rounded-xl border border-gray-200 text-center card-hover">
+                    <i data-lucide="mountain" class="h-10 w-10 mx-auto mb-4 text-primary"></i>
+                    <h3 class="font-semibold text-xl mb-2 font-serif">Wawasan Nusantara</h3>
+                    <p class="text-gray-600">Komitmen kuat pada persatuan dan kesatuan bangsa, serta peran aktif Indonesia di kancah politik global.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Featured Blog Posts -->
+    <section id="blog" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="font-serif text-4xl font-bold border-b-4 pb-1 border-primary">Artikel Pilihan</h2>
+                <button class="text-primary hover:text-red-700 font-medium flex items-center">
+                    Lihat Semua <i data-lucide="chevron-right" class="h-5 w-5 ml-1"></i>
+                </button>
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Post 1: Kebijakan Luar Negeri -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <!-- Image URL: #13 - Megawati Soekarnoputri meeting with world leaders -->
+                    <img src="https://media.gettyimages.com/id/2617625/photo/world-leaders-meet-at-the-apec-leaders-retreat.jpg?s=1024x1024&w=gi&k=20&c=_n8zCgm_uOfkhMypo0o-RV64npENeno54r32uAInQ3U=" 
+                         alt="Megawati bertemu pemimpin dunia" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold uppercase text-secondary-gold">Diplomasi</span>
+                        <h3 class="font-serif text-xl font-bold mt-1 mb-3 leading-snug">
+                            Peran Aktif Indonesia di KTT APEC dan G8 Awal Milenium
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Menganalisis langkah-langkah strategis Presiden Megawati dalam memposisikan kembali Indonesia pasca-krisis Asia di mata dunia internasional.
+                        </p>
+                        <a href="#" class="text-primary font-semibold text-sm hover:underline">Baca Selengkapnya</a>
+                    </div>
+                </div>
+
+                <!-- Post 2: Penandatanganan UU -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <!-- Image URL: #28 - Megawati Soekarnoputri signing a document -->
+                    <img src="https://asianews.network/wp-content/uploads/bfi_thumb/ss-79kphv2h0p4fa26r7qkak5zyajfkvel2s7a7qrgep8g.jpg" 
+                         alt="Megawati menandatangani dokumen penting" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold uppercase text-primary">Hukum & Politik</span>
+                        <h3 class="font-serif text-xl font-bold mt-1 mb-3 leading-snug">
+                            Keputusan Kritis: Saat RUU Penting Menjadi Undang-Undang
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Tinjauan mendalam pada UU Otonomi Khusus Aceh dan Papua, pilar penting dalam menyelesaikan konflik regional pada masa pemerintahannya.
+                        </p>
+                        <a href="#" class="text-primary font-semibold text-sm hover:underline">Baca Selengkapnya</a>
+                    </div>
+                </div>
+
+                <!-- Post 3: Pidato Publik -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <!-- Image URL: #22 - Megawati Soekarnoputri speaking at a conference -->
+                    <img src="https://media.gettyimages.com/id/94821942/photo/indonesian-president-megawati-soekarnoputri-speaks-to-journa.jpg?s=612x612&w=gi&k=20&c=pgXpMZCPN8b2R1DQhW9M5ZhRpzzBoxLAj00fpqJWGbI=" 
+                         alt="Megawati berpidato di konferensi" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold uppercase text-secondary-gold">Orasi</span>
+                        <h3 class="font-serif text-xl font-bold mt-1 mb-3 leading-snug">
+                            Retorika Pro-Rakyat: Mengupas Gaya Pidato Presiden Kelima
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Bagaimana warisan Soekarno memengaruhi retorika politik Megawati dan dampaknya pada dukungan akar rumput saat itu.
+                        </p>
+                        <a href="#" class="text-primary font-semibold text-sm hover:underline">Baca Selengkapnya</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section: Timeline Kepemimpinan (Achievements) -->
+    <section id="kebijakan" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-center font-serif text-4xl font-bold mb-10">Kronologi dan Pencapaian Utama (2001-2004)</h2>
+            
+            <!-- Horizontal Timeline Scrollable on Mobile -->
+            <div class="relative overflow-x-auto timeline-scroll pb-4">
+                <div class="flex items-center w-max md:w-full">
+                    
+                    <!-- Timeline Line -->
+                    <div class="absolute left-0 top-1/2 h-0.5 w-full bg-gray-300 hidden md:block"></div>
+                    
+                    <!-- Timeline Items Wrapper -->
+                    <div class="flex space-x-12 md:space-x-0 justify-between items-start pt-10 md:pt-0">
+                        
+                        <!-- Item 1: Pelantikan -->
+                        <div class="w-64 flex-shrink-0 relative md:text-center">
+                            <div class="absolute inset-x-0 -top-2 md:top-auto md:-bottom-3 flex justify-center">
+                                <div class="w-6 h-6 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            </div>
+                            <h4 class="text-lg font-bold font-serif mb-1 mt-6 md:mt-0">Juli 2001</h4>
+                            <p class="text-sm text-gray-600">Pelantikan sebagai Presiden RI ke-5, menggantikan Gus Dur melalui Sidang Istimewa MPR.</p>
+                        </div>
+
+                        <!-- Item 2: Restrukturisasi Utang -->
+                        <div class="w-64 flex-shrink-0 relative md:text-center">
+                            <div class="absolute inset-x-0 -top-2 md:top-auto md:-bottom-3 flex justify-center">
+                                <div class="w-6 h-6 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            </div>
+                            <h4 class="text-lg font-bold font-serif mb-1 mt-6 md:mt-0">2002</h4>
+                            <p class="text-sm text-gray-600">Keputusan untuk mengakhiri program bantuan IMF, menandakan kemandirian ekonomi pasca krisis moneter.</p>
+                        </div>
+
+                        <!-- Item 3: UU Terorisme -->
+                        <div class="w-64 flex-shrink-0 relative md:text-center">
+                            <div class="absolute inset-x-0 -top-2 md:top-auto md:-bottom-3 flex justify-center">
+                                <div class="w-6 h-6 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            </div>
+                            <h4 class="text-lg font-bold font-serif mb-1 mt-6 md:mt-0">Oktober 2002</h4>
+                            <p class="text-sm text-gray-600">Pengesahan Perpu Anti-Terorisme menyusul Bom Bali I, memperkuat keamanan nasional.</p>
+                        </div>
+
+                        <!-- Item 4: Komisi Yudisial -->
+                        <div class="w-64 flex-shrink-0 relative md:text-center">
+                            <div class="absolute inset-x-0 -top-2 md:top-auto md:-bottom-3 flex justify-center">
+                                <div class="w-6 h-6 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            </div>
+                            <h4 class="text-lg font-bold font-serif mb-1 mt-6 md:mt-0">2003</h4>
+                            <p class="text-sm text-gray-600">Pendirian Komisi Pemberantasan Korupsi (KPK) dan Komisi Yudisial (KY), pilar penting reformasi hukum.</p>
+                        </div>
+                        
+                        <!-- Item 5: Pemilu 2004 -->
+                        <div class="w-64 flex-shrink-0 relative md:text-center">
+                            <div class="absolute inset-x-0 -top-2 md:top-auto md:-bottom-3 flex justify-center">
+                                <div class="w-6 h-6 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            </div>
+                            <h4 class="text-lg font-bold font-serif mb-1 mt-6 md:mt-0">2004</h4>
+                            <p class="text-sm text-gray-600">Sukses menyelenggarakan Pemilihan Presiden secara langsung pertama dalam sejarah Indonesia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center italic text-sm mt-12 text-gray-500">* Geser (scroll) untuk melihat detail kronologi di perangkat seluler.</p>
+
+        </div>
+    </section>
+
+    <!-- Section: Quote/Gallery CTA -->
+    <section id="galeri" class="bg-primary py-16 md:py-20 text-white relative overflow-hidden">
+        <!-- Background Image Element -->
+        <!-- Image URL: #19 - Megawati Soekarnoputri with Indonesian people -->
+        <div class="absolute inset-0 opacity-20">
+            <img src="https://thediplomat.com/wp-content/uploads/2023/02/sizes/td-story-s-2/thediplomat_2023-02-02-210139.jpg" 
+                 alt="Megawati bersama rakyat" 
+                 class="w-full h-full object-cover grayscale">
+            <div class="absolute inset-0 bg-primary opacity-80"></div>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <i data-lucide="quote" class="h-12 w-12 mx-auto mb-4 text-secondary-gold fill-current"></i>
+            <blockquote class="font-serif text-3xl md:text-5xl font-light italic leading-snug max-w-4xl mx-auto mb-8">
+                "Kemandirian sebuah bangsa diukur dari sejauh mana rakyatnya mampu berdiri di atas kaki sendiri, tanpa harus menggadaikan harga diri."
+            </blockquote>
+            <p class="text-xl font-semibold mb-8">— Megawati Soekarnoputri</p>
+            <a href="#" class="inline-flex items-center px-8 py-3 bg-white text-primary font-semibold rounded-lg shadow-xl hover:bg-gray-100 transition duration-300">
+                Lihat Album Foto Kenangan <i data-lucide="image" class="h-5 w-5 ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <!-- Kolom 1: About -->
+                <div>
+                    <h5 class="text-lg font-bold text-secondary-gold mb-4">Tentang Blog</h5>
+                    <p class="text-sm text-gray-400">
+                        Situs ini didedikasikan untuk mendokumentasikan masa bakti, kebijakan, dan warisan kepemimpinan Presiden RI ke-5, Megawati Soekarnoputri.
+                    </p>
+                </div>
+                
+                <!-- Kolom 2: Navigasi -->
+                <div>
+                    <h5 class="text-lg font-bold text-secondary-gold mb-4">Navigasi Cepat</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#profil" class="text-gray-400 hover:text-white transition duration-150 text-sm">Biografi</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-white transition duration-150 text-sm">Daftar Artikel</a></li>
+                        <li><a href="#kebijakan" class="text-gray-400 hover:text-white transition duration-150 text-sm">Pencapaian</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-150 text-sm">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Kolom 3: Sumber Daya -->
+                <div>
+                    <h5 class="text-lg font-bold text-secondary-gold mb-4">Sumber Daya Resmi</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-150 text-sm">Istana Presiden</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-150 text-sm">Arsip Nasional</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-150 text-sm">Dokumen MPR/DPR</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Kolom 4: Kantor Kepresidenan -->
+                <div>
+                    <h5 class="text-lg font-bold text-secondary-gold mb-4">Kantor Jakarta</h5>
+                    <div class="flex items-start mb-2">
+                        <i data-lucide="map-pin" class="h-5 w-5 mr-2 text-primary flex-shrink-0"></i>
+                        <p class="text-sm text-gray-400">Istana Negara, Jl. Veteran No.17, Jakarta Pusat, DKI Jakarta 10110.</p>
+                    </div>
+                    <!-- Image URL: #17 - Presidential palace Jakarta exterior -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Istana_Negara_%2830139691680%29.jpg" 
+                         alt="Eksterior Istana Negara" 
+                         class="mt-3 rounded-lg opacity-70 hover:opacity-100 transition duration-300">
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="border-t border-gray-700 pt-6 mt-6 text-center">
+                <p class="text-sm text-gray-500">
+                    &copy; <span id="current-year"></span> Blog Kepresidenan RI Ke-5. Dikembangkan untuk tujuan edukasi dan arsip sejarah.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // 1. Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateCopyrightYear();
+            setupMobileMenu();
+        });
+
+        // 2. Set Current Year in Footer
+        function updateCopyrightYear() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        }
+
+        // 3. Mobile Menu Toggle
+        function setupMobileMenu() {
+            const button = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            
+            button.addEventListener('click', () => {
+                const isHidden = menu.classList.toggle('hidden');
+                
+                // Change icon based on state
+                const iconElement = button.querySelector('i');
+                if (isHidden) {
+                    iconElement.setAttribute('data-lucide', 'menu');
+                } else {
+                    iconElement.setAttribute('data-lucide', 'x');
+                }
+                lucide.createIcons(); // Re-render icons after change
+            });
+            
+            // Close menu on link click (for smooth scrolling to section)
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!menu.classList.contains('hidden')) {
+                         menu.classList.add('hidden');
+                         document.querySelector('#mobile-menu-button i').setAttribute('data-lucide', 'menu');
+                         lucide.createIcons();
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
