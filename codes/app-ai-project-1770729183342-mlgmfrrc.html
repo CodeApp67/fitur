@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volcano Eruption Simulator - EduApp</title>
+    <!-- Google Fonts: Poppins for main text, Space Mono for data/code -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom scrollbar for better UX in data panels */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .data-mono {
+            font-family: 'Space Mono', monospace;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'volcano-red': '#e34e3d',
+                        'magma': '#ff6b3d',
+                        'ash-dark': '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-ash-dark text-gray-100 antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-ash-dark/95 backdrop-blur-sm border-b border-gray-700 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i data-lucide="mountain" class="w-6 h-6 text-volcano-red mr-2"></i>
+                    <span class="text-xl font-bold tracking-tight text-white">PyroSim</span>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#simulation" class="text-gray-300 hover:text-volcano-red px-3 py-2 rounded-md text-sm font-medium transition duration-200">Simulation</a>
+                    <a href="#dashboard" class="text-gray-300 hover:text-volcano-red px-3 py-2 rounded-md text-sm font-medium transition duration-200">Monitoring</a>
+                    <a href="#stages" class="text-gray-300 hover:text-volcano-red px-3 py-2 rounded-md text-sm font-medium transition duration-200">Phases</a>
+                    <a href="#database" class="text-gray-300 hover:text-volcano-red px-3 py-2 rounded-md text-sm font-medium transition duration-200">Volcano Types</a>
+                </div>
+                <button class="p-2 border border-gray-700 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <i data-lucide="settings" class="w-5 h-5 text-gray-400"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-12">
+        
+        <!-- 1. Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+            <div class="relative overflow-hidden bg-gray-800 rounded-xl shadow-2xl p-8 lg:p-16">
+                <img src="https://media.istockphoto.com/id/515005712/photo/volcanic-landscape.jpg?s=612x612&w=0&k=20&c=LQb8pV24qRPVbdJ_pxHA5Me017omtoX0EN2S06_2SVk=" alt="Volcano Landscape" class="absolute inset-0 w-full h-full object-cover opacity-20 filter brightness-110">
+                <div class="relative z-10 max-w-4xl">
+                    <span class="text-magma font-semibold tracking-wider uppercase text-sm">Geophysical Education Tool</span>
+                    <h1 class="mt-4 text-5xl lg:text-7xl font-extrabold leading-tight text-white">
+                        Simulate the Fury of the Earth
+                    </h1>
+                    <p class="mt-6 text-xl text-gray-300 max-w-2xl">
+                        Explore the complex physics of volcanic eruptions. Adjust magma viscosity, gas pressure, and vent stability to understand the resulting eruption type and seismic impact.
+                    </p>
+                    <a href="#simulation" class="mt-8 inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-volcano-red hover:bg-magma transition duration-300 shadow-lg shadow-volcano-red/40">
+                        Start Simulation
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Simulation Core -->
+        <section id="simulation" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 pt-10">
+            <h2 class="text-4xl font-bold text-white mb-10 border-b border-gray-700 pb-4">Simulation Controls</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Input Panel -->
+                <div class="lg:col-span-2 space-y-8 p-6 bg-gray-800 rounded-xl shadow-xl border border-gray-700">
+                    <div class="space-y-4">
+                        <label for="pressure" class="block text-lg font-medium text-gray-200 flex items-center">
+                            <i data-lucide="gauge" class="w-5 h-5 mr-2 text-magma"></i>
+                            Magma Chamber Gas Pressure (<span id="pressureValue" class="text-volcano-red ml-1 data-mono">50</span> kPa)
+                        </label>
+                        <input type="range" id="pressure" min="0" max="100" value="50" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer range-lg accent-volcano-red transition duration-300">
+                        <p class="text-sm text-gray-400">High pressure increases explosive potential.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label for="viscosity" class="block text-lg font-medium text-gray-200 flex items-center">
+                            <i data-lucide="droplet" class="w-5 h-5 mr-2 text-magma"></i>
+                            Magma Viscosity (Sillica Content) (<span id="viscosityValue" class="text-volcano-red ml-1 data-mono">50</span> units)
+                        </label>
+                        <input type="range" id="viscosity" min="0" max="100" value="50" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer range-lg accent-volcano-red">
+                        <p class="text-sm text-gray-400">High viscosity (thick magma) traps gas, leading to violent eruptions.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label for="blockage" class="block text-lg font-medium text-gray-200 flex items-center">
+                            <i data-lucide="shield-alert" class="w-5 h-5 mr-2 text-magma"></i>
+                            Vent Blockage Level (<span id="blockageValue" class="text-volcano-red ml-1 data-mono">50</span> %)
+                        </label>
+                        <input type="range" id="blockage" min="0" max="100" value="50" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer range-lg accent-volcano-red">
+                        <p class="text-sm text-gray-400">A sealed vent allows pressure to build up dramatically.</p>
+                    </div>
+
+                    <div class="pt-6">
+                        <button onclick="handleSimulationChange()" class="w-full py-3 bg-magma text-white font-semibold rounded-lg hover:bg-volcano-red transition duration-300">
+                            Run Simulation Step
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Display -->
+                <div class="p-6 bg-gray-900 rounded-xl shadow-2xl border border-volcano-red/50 flex flex-col justify-center items-center text-center space-y-4">
+                    <div id="statusIconContainer" class="p-4 rounded-full bg-gray-700 mb-4 transition duration-500 ease-in-out">
+                        <i data-lucide="cloud" class="w-12 h-12 text-gray-400"></i>
+                    </div>
+                    
+                    <span id="eruptionIndexDisplay" class="text-5xl font-extrabold data-mono text-gray-400 transition duration-500">0.0</span>
+                    <h3 id="volcanoStatus" class="text-3xl font-bold text-white tracking-wide transition duration-500">
+                        Dormant
+                    </h3>
+                    <p id="statusDescription" class="text-gray-400 mt-2 italic">No immediate threat detected. System stable.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Monitoring Dashboard -->
+        <section id="dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-20">
+            <h2 class="text-4xl font-bold text-white mb-10 border-b border-gray-700 pb-4">Real-Time Monitoring Dashboard</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                
+                <!-- Metric Card 1: Seismic Activity -->
+                <div class="p-5 bg-gray-800 rounded-xl shadow-xl border-l-4 border-magma hover:shadow-magma/20 transition duration-300">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-medium text-gray-400">Seismic Activity</p>
+                        <i data-lucide="activity" class="w-5 h-5 text-magma"></i>
+                    </div>
+                    <div class="mt-2">
+                        <span id="metricSeismic" class="text-3xl font-bold data-mono text-white">1.2</span> 
+                        <span class="text-lg text-gray-400"> (ML)</span>
+                    </div>
+                    <div id="seismicBar" class="mt-3 h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-green-500 transition-all duration-700" style="width: 12%"></div>
+                    </div>
+                </div>
+
+                <!-- Metric Card 2: Ground Deformation -->
+                <div class="p-5 bg-gray-800 rounded-xl shadow-xl border-l-4 border-sky-500 hover:shadow-sky-500/20 transition duration-300">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-medium text-gray-400">Ground Deformation</p>
+                        <i data-lucide="maximize-2" class="w-5 h-5 text-sky-500"></i>
+                    </div>
+                    <div class="mt-2">
+                        <span id="metricDeformation" class="text-3xl font-bold data-mono text-white">0.5</span>
+                        <span class="text-lg text-gray-400"> cm/day</span>
+                    </div>
+                     <div id="deformationBar" class="mt-3 h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-green-500 transition-all duration-700" style="width: 5%"></div>
+                    </div>
+                </div>
+                
+                <!-- Metric Card 3: Sulfur Dioxide (SO2) Emission -->
+                <div class="p-5 bg-gray-800 rounded-xl shadow-xl border-l-4 border-yellow-500 hover:shadow-yellow-500/20 transition duration-300">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-medium text-gray-400">SO₂ Emission Flux</p>
+                        <i data-lucide="smoke" class="w-5 h-5 text-yellow-500"></i>
+                    </div>
+                    <div class="mt-2">
+                        <span id="metricGas" class="text-3xl font-bold data-mono text-white">50</span>
+                        <span class="text-lg text-gray-400"> tons/day</span>
+                    </div>
+                     <div id="gasBar" class="mt-3 h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-green-500 transition-all duration-700" style="width: 5%"></div>
+                    </div>
+                </div>
+
+                <!-- Metric Card 4: Magma Temperature -->
+                <div class="p-5 bg-gray-800 rounded-xl shadow-xl border-l-4 border-volcano-red hover:shadow-volcano-red/20 transition duration-300">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-medium text-gray-400">Chamber Temperature</p>
+                        <i data-lucide="thermometer" class="w-5 h-5 text-volcano-red"></i>
+                    </div>
+                    <div class="mt-2">
+                        <span id="metricTemp" class="text-3xl font-bold data-mono text-white">750</span>
+                        <span class="text-lg text-gray-400"> °C</span>
+                    </div>
+                    <div id="tempBar" class="mt-3 h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-green-500 transition-all duration-700" style="width: 5%"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. Eruption Stages (Tabbed Content) -->
+        <section id="stages" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-20">
+            <h2 class="text-4xl font-bold text-white mb-10 border-b border-gray-700 pb-4">Understanding Eruption Phases</h2>
+            
+            <div class="bg-gray-800 rounded-xl shadow-xl p-6">
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-gray-700 mb-6" id="tabNav">
+                    <button data-tab="dormant" class="tab-button px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition duration-200 active-tab">
+                        <i data-lucide="clock" class="w-4 h-4 inline mr-1"></i> Dormant Phase
+                    </button>
+                    <button data-tab="precursor" class="tab-button px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition duration-200">
+                        <i data-lucide="alert-triangle" class="w-4 h-4 inline mr-1"></i> Precursor/Warning
+                    </button>
+                    <button data-tab="eruption" class="tab-button px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition duration-200">
+                        <i data-lucide="flame" class="w-4 h-4 inline mr-1"></i> Eruption Phase
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tabContent">
+                    <!-- Dormant Phase -->
+                    <div data-content="dormant" class="tab-pane active-content">
+                        <h3 class="text-2xl font-semibold text-magma mb-3">Dormant Phase: The Quiet Giant</h3>
+                        <p class="text-gray-300 mb-4">A volcano is dormant when it is not erupting but is expected to erupt again. Monitoring shows baseline seismic activity and low gas emission. Magma may still be present deep within the crust, but pressure buildup is minimal.</p>
+                        <ul class="list-disc list-inside text-gray-400">
+                            <li>Seismic activity below 2.0 ML.</li>
+                            <li>Ground deformation measurements are flat.</li>
+                            <li>Vent remains sealed or has minimal fumarole activity.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Precursor Phase -->
+                    <div data-content="precursor" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold text-yellow-500 mb-3">Precursor/Warning: Rising Pressure</h3>
+                        <p class="text-gray-300 mb-4">This phase is characterized by measurable changes indicating magma movement. Rising gas pressure, increased seismic swarms, and noticeable ground uplift (inflation) signal an impending event. This is the critical monitoring period.</p>
+                        <ul class="list-disc list-inside text-gray-400">
+                            <li>Frequent, shallow earthquakes (3.0+ ML).</li>
+                            <li>Increased SO₂ and H₂S gas flux detected by spectrometers.</li>
+                            <li>Significant tilt or deformation (several cm/day).</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Eruption Phase -->
+                    <div data-content="eruption" class="tab-pane hidden">
+                        <h3 class="text-2xl font-semibold text-volcano-red mb-3">Eruption Phase: Release of Energy</h3>
+                        <p class="text-gray-300 mb-4">The actual eruption event. The style (explosive vs. effusive) depends heavily on the magma chemistry (viscosity) and the gas pressure achieved during the precursor phase. Explosive eruptions form high ash columns (Plinian), while effusive ones produce slow-moving lava flows (Hawaiian).</p>
+                        <ul class="list-disc list-inside text-gray-400">
+                            <li>Effusive: Low viscosity, low pressure release.</li>
+                            <li>Explosive: High viscosity traps gas, leading to rapid fragmentation and pyroclastic flows.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Volcano Database & Filter -->
+        <section id="database" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-20">
+            <h2 class="text-4xl font-bold text-white mb-10 border-b border-gray-700 pb-4">Volcano Classification Database</h2>
+
+            <div class="mb-6 flex flex-col md:flex-row gap-4">
+                <input type="text" id="volcanoSearch" placeholder="Search by name or type (e.g., Stratovolcano)..." 
+                       class="w-full md:w-1/3 p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-volcano-red focus:border-volcano-red transition duration-200">
+                <button onclick="filterVolcanoes()" class="bg-gray-700 p-3 rounded-lg hover:bg-magma transition duration-200 flex items-center justify-center">
+                    <i data-lucide="search" class="w-5 h-5 mr-2"></i> Filter
+                </button>
+            </div>
+            
+            <div id="volcanoList" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Volcano cards will be populated here by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="text-gray-400">
+                    <i data-lucide="mountain" class="w-5 h-5 text-volcano-red inline mr-1"></i>
+                    PyroSim &copy; 2024 Geological Education Project.
+                </div>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-volcano-red transition duration-200 text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-volcano-red transition duration-200 text-sm">Contact Support</a>
+                    <a href="#" class="text-gray-400 hover:text-volcano-red transition duration-200 text-sm">API Docs</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // --- DATA SETUP ---
+        const VOLCANO_DATA = [
+            { name: "Mount Fuji", type: "Stratovolcano", location: "Japan", viscosity: "High", explosivity: "High", image: "https://media.istockphoto.com/id/1391718981/photo/portrait-of-a-confident-young-businessman-standing-with-his-arms-crossed-in-an-office.jpg?s=612x612&w=0&k=20&c=eF_0QCtw-Y8Q2c4_xQe6KTkcSPiGCT6qBf6nuavE2Dg=" },
+            { name: "Mauna Loa", type: "Shield Volcano", location: "Hawaii, USA", viscosity: "Low", explosivity: "Low (Effusive)", image: "https://media.istockphoto.com/id/1391718981/photo/portrait-of-a-confident-young-businessman-standing-with-his-arms-crossed-in-an-office.jpg?s=612x612&w=0&k=20&c=eF_0QCtw-Y8Q2c4_xQe6KTkcSPiGCT6qBf6nuavE2Dg=" },
+            { name: "Vesuvius", type: "Stratovolcano", location: "Italy", viscosity: "High", explosivity: "Very High (Plinian)", image: "https://media.istockphoto.com/id/1391718981/photo/portrait-of-a-confident-young-businessman-standing-with-his-arms-crossed-in-an-office.jpg?s=612x612&w=0&k=20&c=eF_0QCtw-Y8Q2c4_xQe6KTkcSPiGCT6qBf6nuavE2Dg=" },
+            { name: "Surtsey", type: "Surtseyan (Submarine)", location: "Iceland", viscosity: "Moderate", explosivity: "Moderate", image: "https://media.istockphoto.com/id/1391718981/photo/portrait-of-a-confident-young-businessman-standing-with-his-arms-crossed-in-an-office.jpg?s=612x612&w=0&k=20&c=eF_0QCtw-Y8Q2c4_xQe6KTkcSPiGCT6qBf6nuavE2Dg=" },
+            { name: "Parícutin", type: "Cinder Cone", location: "Mexico", viscosity: "Moderate", explosivity: "Moderate (Strombolian)", image: "https://media.istockphoto.com/id/1391718981/photo/portrait-of-a-confident-young-businessman-standing-with-his-arms-crossed-in-an-office.jpg?s=612x612&w=0&k=20&c=eF_0QCtw-Y8Q2c4_xQe6KTkcSPiGCT6qBf6nuavE2Dg=" },
+            { name: "Kilauea", type: "Shield Volcano", location: "Hawaii, USA", viscosity: "Low", explosivity: "Very Low", image: "https://picsum.photos/400/250?random=7" },
+        ];
+
+        // --- GLOBAL REFERENCES ---
+        const pressureInput = document.getElementById('pressure');
+        const viscosityInput = document.getElementById('viscosity');
+        const blockageInput = document.getElementById('blockage');
+        
+        const pressureValueDisplay = document.getElementById('pressureValue');
+        const viscosityValueDisplay = document.getElementById('viscosityValue');
+        const blockageValueDisplay = document.getElementById('blockageValue');
+
+        const volcanoStatus = document.getElementById('volcanoStatus');
+        const statusDescription = document.getElementById('statusDescription');
+        const eruptionIndexDisplay = document.getElementById('eruptionIndexDisplay');
+        const statusIconContainer = document.getElementById('statusIconContainer');
+
+        const metrics = {
+            seismic: document.getElementById('metricSeismic'),
+            deformation: document.getElementById('metricDeformation'),
+            gas: document.getElementById('metricGas'),
+            temp: document.getElementById('metricTemp'),
+        };
+        const metricBars = {
+            seismic: document.getElementById('seismicBar').children[0],
+            deformation: document.getElementById('deformationBar').children[0],
+            gas: document.getElementById('gasBar').children[0],
+            temp: document.getElementById('tempBar').children[0],
+        };
+
+        // --- SIMULATION LOGIC ---
+
+        function updateSliderDisplays() {
+            pressureValueDisplay.textContent = pressureInput.value;
+            viscosityValueDisplay.textContent = viscosityInput.value;
+            blockageValueDisplay.textContent = blockageInput.value;
+        }
+
+        function calculateEruptionIndex(P, V, B) {
+            // Weighted calculation (P: Pressure, V: Viscosity, B: Blockage)
+            // Pressure is the primary driver (50%), Viscosity determines style (35%), Blockage accelerates buildup (15%)
+            let EI = (P * 0.50) + (V * 0.35) + (B * 0.15);
+            
+            // Normalize EI to a 0-100 scale
+            return (EI / 100).toFixed(1); 
+        }
+
+        function updateDashboardMetrics(ei) {
+            const EI_int = parseFloat(ei);
+
+            // Seismic (correlated strongly with Pressure and Viscosity)
+            const seismic = (1.0 + (EI_int / 10) + (Math.random() * 0.5)).toFixed(1);
+            
+            // Deformation (correlated strongly with Pressure)
+            const deformation = (0.5 + (pressureInput.value / 40) + (Math.random() * 0.2)).toFixed(1);
+            
+            // Gas (correlated with overall activity)
+            const gas = (50 + (EI_int * 15) + (Math.random() * 10)).toFixed(0);
+            
+            // Temperature (correlated with viscosity/magma type)
+            const temp = (700 + (viscosityInput.value * 3) + (Math.random() * 50)).toFixed(0);
+
+            // Update displays
+            metrics.seismic.textContent = seismic;
+            metrics.deformation.textContent = deformation;
+            metrics.gas.textContent = gas;
+            metrics.temp.textContent = temp;
+
+            // Update bars (assuming max ML 7.0, max Def 5.0, max Gas 2000, max Temp 1200)
+            const getBarPercentage = (current, max) => Math.min(100, (current / max) * 100);
+            
+            const bars = [
+                { bar: metricBars.seismic, val: seismic, max: 7.0 },
+                { bar: metricBars.deformation, val: deformation, max: 5.0 },
+                { bar: metricBars.gas, val: gas, max: 2000 },
+                { bar: metricBars.temp, val: temp, max: 1200 }
+            ];
+
+            bars.forEach(({ bar, val, max }) => {
+                const percentage = getBarPercentage(parseFloat(val), max);
+                bar.style.width = `${percentage}%`;
+                
+                // Color coding (green < 30, yellow < 70, red > 70)
+                if (percentage < 30) {
+                    bar.className = 'h-2 bg-green-500 transition-all duration-700';
+                } else if (percentage < 70) {
+                    bar.className = 'h-2 bg-yellow-500 transition-all duration-700';
+                } else {
+                    bar.className = 'h-2 bg-volcano-red transition-all duration-700';
+                }
+            });
+        }
+
+        function handleSimulationChange() {
+            updateSliderDisplays();
+
+            const P = parseInt(pressureInput.value);
+            const V = parseInt(viscosityInput.value);
+            const B = parseInt(blockageInput.value);
+
+            const EI = calculateEruptionIndex(P, V, B);
+            const EI_float = parseFloat(EI) * 10; // 0 to 100 for comparison
+
+            eruptionIndexDisplay.textContent = EI;
+
+            let status, description, icon, color;
+
+            if (EI_float < 30) {
+                // Dormant/Effusive Low
+                status = "Dormant (Effusive Potential)";
+                description = "Low pressure and viscosity indicate minimal explosive risk, favoring slow lava flows if activity increases.";
+                icon = "cloud";
+                color = "text-green-500";
+            } else if (EI_float < 60) {
+                // Strombolian / Vulcanian (Moderate Risk)
+                status = "Elevated Activity (Vulcanian)";
+                description = "Moderate pressure buildup suggests short, moderately explosive bursts, common with moderate viscosity.";
+                icon = "flame-kindling";
+                color = "text-yellow-500";
+            } else if (EI_float < 85) {
+                // Plinian / Sub-Plinian (High Risk)
+                status = "Critical Warning (Sub-Plinian)";
+                description = "High gas content trapped by high viscosity and blockage. Significant potential for large ash column and pyroclastic flows.";
+                icon = "alert-triangle";
+                color = "text-orange-500";
+            } else {
+                // Ultra-Plinian (Severe Risk)
+                status = "Explosive Eruption (Plinian)";
+                description = "Extreme combination of pressure, viscosity, and blockage. Massive release of energy imminent, forming devastating ash clouds.";
+                icon = "bomb";
+                color = "text-volcano-red";
+            }
+
+            // Update main status display
+            volcanoStatus.textContent = status;
+            volcanoStatus.className = `text-3xl font-bold tracking-wide transition duration-500 ${color}`;
+            statusDescription.textContent = description;
+            
+            // Update icon and background color
+            statusIconContainer.innerHTML = `<i data-lucide="${icon}" class="w-12 h-12 ${color}"></i>`;
+            statusIconContainer.className = `p-4 rounded-full mb-4 transition duration-500 ease-in-out bg-gray-700/50 border border-gray-600`;
+
+            // Re-render icons after changing innerHTML
+            lucide.createIcons();
+
+            // Update monitoring dashboard
+            updateDashboardMetrics(EI);
+        }
+
+        // --- TAB LOGIC ---
+        function setupTabs() {
+            const nav = document.getElementById('tabNav');
+            const content = document.getElementById('tabContent');
+            const buttons = nav.querySelectorAll('.tab-button');
+            const panes = content.querySelectorAll('.tab-pane');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.getAttribute('data-tab');
+
+                    // Deactivate all
+                    buttons.forEach(b => {
+                        b.classList.remove('border-volcano-red', 'text-white');
+                        b.classList.add('border-transparent', 'text-gray-400');
+                    });
+                    panes.forEach(p => p.classList.add('hidden'));
+
+                    // Activate selected
+                    button.classList.add('border-volcano-red', 'text-white');
+                    button.classList.remove('border-transparent', 'text-gray-400');
+                    document.querySelector(`[data-content="${target}"]`).classList.remove('hidden');
+                });
+            });
+
+            // Initial activation
+            nav.querySelector('.active-tab').click();
+        }
+
+        // --- VOLCANO DATABASE LOGIC ---
+        function renderVolcanoes(data) {
+            const container = document.getElementById('volcanoList');
+            container.innerHTML = ''; // Clear previous content
+
+            if (data.length === 0) {
+                container.innerHTML = '<p class="col-span-3 text-center text-gray-400">No volcanoes match your criteria.</p>';
+                return;
+            }
+
+            data.forEach((v, index) => {
+                const html = `
+                    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                        <img src="${v.image}" alt="${v.name}" class="w-full h-40 object-cover">
+                        <div class="p-5">
+                            <h4 class="text-xl font-bold text-white mb-2">${v.name}</h4>
+                            <div class="flex items-center text-sm text-gray-400 mb-3">
+                                <i data-lucide="map-pin" class="w-4 h-4 mr-1 text-magma"></i> ${v.location}
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="font-medium text-gray-300">Type:</span>
+                                    <span class="text-volcano-red font-semibold">${v.type}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="font-medium text-gray-300">Viscosity:</span>
+                                    <span class="text-gray-200">${v.viscosity}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="font-medium text-gray-300">Explosivity:</span>
+                                    <span class="text-gray-200">${v.explosivity}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+            lucide.createIcons(); // Re-render icons for new content
+        }
+
+        function filterVolcanoes() {
+            const searchTerm = document.getElementById('volcanoSearch').value.toLowerCase();
+            
+            const filteredData = VOLCANO_DATA.filter(v => 
+                v.name.toLowerCase().includes(searchTerm) || 
+                v.type.toLowerCase().includes(searchTerm) || 
+                v.location.toLowerCase().includes(searchTerm)
+            );
+            renderVolcanoes(filteredData);
+        }
+
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup listeners for simulation inputs
+            [pressureInput, viscosityInput, blockageInput].forEach(input => {
+                input.addEventListener('input', handleSimulationChange);
+            });
+            
+            // Initial run of the simulation and dashboard
+            handleSimulationChange();
+            
+            // Setup educational tabs
+            setupTabs();
+
+            // Load initial volcano database
+            renderVolcanoes(VOLCANO_DATA);
+        });
+
+    </script>
+
+</body>
+</html>
