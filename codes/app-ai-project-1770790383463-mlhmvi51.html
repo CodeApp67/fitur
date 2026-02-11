@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoClean: Aplikasi Pelacak Sampah & Daur Ulang</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration & Custom Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eco-green': '#009688', // Teal/Emerald base
+                        'eco-dark': '#00695C',
+                        'eco-light': '#E0F2F1',
+                        'bg-light': '#F7FBFB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .container-padding {
+            @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+        }
+        .section-title {
+            @apply text-4xl font-extrabold text-eco-dark mb-4;
+        }
+        .feature-card {
+            @apply p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border-t-4 border-eco-green/70;
+        }
+        /* Custom scrollbar for better UX */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #009688;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body class="font-sans bg-bg-light text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container-padding">
+            <nav class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Recycle001.svg" alt="EcoClean Logo" class="w-8 h-8">
+                    <span class="text-2xl font-bold text-eco-green">EcoClean</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#fitur" class="text-gray-600 hover:text-eco-dark font-medium transition duration-200">Fitur Utama</a>
+                    <a href="#statistik" class="text-gray-600 hover:text-eco-dark font-medium transition duration-200">Statistik</a>
+                    <a href="#dampak" class="text-gray-600 hover:text-eco-dark font-medium transition duration-200">Dampak</a>
+                    <a href="#unduh" class="text-gray-600 hover:text-eco-dark font-medium transition duration-200">Unduh</a>
+                </div>
+
+                <!-- CTA Button -->
+                <a href="#unduh" class="hidden md:inline-flex items-center bg-eco-green text-white py-2 px-4 rounded-full font-semibold hover:bg-eco-dark transition duration-300 shadow-md">
+                    Mulai Bersihkan <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 text-eco-green focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu Drawer (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-white shadow-xl">
+            <div class="flex flex-col p-4 space-y-3">
+                <a href="#fitur" class="text-gray-700 hover:bg-eco-light p-2 rounded block">Fitur Utama</a>
+                <a href="#statistik" class="text-gray-700 hover:bg-eco-light p-2 rounded block">Statistik</a>
+                <a href="#dampak" class="text-gray-700 hover:bg-eco-light p-2 rounded block">Dampak</a>
+                <a href="#unduh" class="text-gray-700 hover:bg-eco-light p-2 rounded block">Unduh Aplikasi</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. Hero Section -->
+    <section id="beranda" class="pt-16 pb-24 bg-eco-light/50">
+        <div class="container-padding grid md:grid-cols-2 gap-10 items-center">
+            <!-- Text Content -->
+            <div class="order-2 md:order-1">
+                <span class="inline-block bg-eco-green/10 text-eco-dark text-sm font-semibold px-3 py-1 rounded-full mb-3">#AksiNyataUntukBumi</span>
+                <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
+                    Ubah Sampah Jadi Poin <span class="text-eco-green">dengan Mudah</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8">
+                    EcoClean adalah aplikasi revolusioner yang menghubungkan Anda dengan fasilitas daur ulang terdekat, memberikan panduan pemisahan sampah yang akurat, dan memberi Anda reward nyata.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="flex items-center justify-center bg-eco-green text-white text-lg py-3 px-8 rounded-full font-bold hover:bg-eco-dark transition duration-300 shadow-xl">
+                        <i data-lucide="smartphone" class="w-5 h-5 mr-2"></i> Unduh Sekarang
+                    </button>
+                    <button class="flex items-center justify-center border border-eco-green text-eco-green text-lg py-3 px-8 rounded-full font-bold hover:bg-eco-green/10 transition duration-300">
+                        Lihat Cara Kerja <i data-lucide="circle-play" class="w-5 h-5 ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Image Content -->
+            <div class="order-1 md:order-2">
+                <img src="https://img.freepik.com/premium-vector/picture-illustration-group-people-holding-hands-around-earth_949067-54.jpg" 
+                     alt="People holding hands around the Earth, symbolizing community and environmental care" 
+                     class="w-full max-w-lg mx-auto rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,150,136,0.5)]">
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Feature Section -->
+    <section id="fitur" class="py-20 bg-white">
+        <div class="container-padding text-center">
+            <h2 class="section-title">Fitur Unggulan Kami</h2>
+            <p class="text-lg text-gray-500 mb-12 max-w-3xl mx-auto">
+                EcoClean dirancang untuk membuat daur ulang menjadi bagian yang mudah dan menyenangkan dari kehidupan sehari-hari Anda.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Feature 1: Scan & Identifikasi Sampah -->
+                <div class="feature-card">
+                    <div class="p-3 bg-eco-green/20 inline-block rounded-full mb-4">
+                        <i data-lucide="scan" class="w-8 h-8 text-eco-dark"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">Scan Sampah Pintar</h3>
+                    <p class="text-gray-600">
+                        Cukup pindai item sampah Anda. AI kami akan mengidentifikasi jenisnya (Plastik PET, Kaca, Kertas, dll.) dan memberikan instruksi pemisahan yang tepat.
+                    </p>
+                    <img src="https://i.etsystatic.com/20088283/r/il/de719f/4052679400/il_1080xN.4052679400_p9jw.jpg" alt="Sorting trash illustration" class="mt-4 rounded-lg w-full h-32 object-contain">
+                </div>
+
+                <!-- Feature 2: Poin & Reward -->
+                <div class="feature-card">
+                    <div class="p-3 bg-eco-green/20 inline-block rounded-full mb-4">
+                        <i data-lucide="trophy" class="w-8 h-8 text-eco-dark"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">Sistem Poin & Reward</h3>
+                    <p class="text-gray-600">
+                        Setiap kali Anda mendaur ulang dengan benar, Anda mendapatkan Eco-Poin. Tukarkan poin Anda dengan diskon, voucher belanja, atau donasi ke gerakan lingkungan.
+                    </p>
+                    <img src="https://miro.medium.com/v2/resize:fit:10962/1*otA86Bma0JCl-37HLhTklg.png" alt="App screenshot with trash tracking feature" class="mt-4 rounded-lg w-full h-32 object-contain">
+                </div>
+
+                <!-- Feature 3: Lokasi Drop-Off Interaktif -->
+                <div class="feature-card">
+                    <div class="p-3 bg-eco-green/20 inline-block rounded-full mb-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-eco-dark"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">Pencari Lokasi Drop-Off</h3>
+                    <p class="text-gray-600">
+                        Temukan tempat daur ulang terdekat, bank sampah, atau jadwal penjemputan spesifik di area Anda. Lengkap dengan jam operasional dan jenis sampah yang diterima.
+                    </p>
+                    <img src="https://media.istockphoto.com/id/1062070588/vector/person-throwing-plastic-garbage-in-recycling-bin.jpg?s=1024x1024&w=is&k=20&c=p2vgY3L-r_ijL1gDyPp-RkBmNaolb0q9t2hxPNKRVa4=" alt="Person throwing trash into recycling bin" class="mt-4 rounded-lg w-full h-32 object-contain">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Dynamic Statistics Section -->
+    <section id="statistik" class="py-20 bg-eco-green/10">
+        <div class="container-padding text-center">
+            <h2 class="section-title text-eco-dark">Dampak Positif Komunitas Kami</h2>
+            <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
+                Setiap tindakan kecil Anda memiliki makna besar. Lihat kontribusi global yang telah kita capai bersama.
+            </p>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stat 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-eco-green">
+                    <p id="stat-massa" class="text-5xl font-extrabold text-eco-dark mb-1">0</p>
+                    <p class="text-sm font-semibold text-gray-500 uppercase">Kg Sampah Didaur Ulang</p>
+                </div>
+                <!-- Stat 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-eco-green">
+                    <p id="stat-users" class="text-5xl font-extrabold text-eco-dark mb-1">0</p>
+                    <p class="text-sm font-semibold text-gray-500 uppercase">Pengguna Aktif</p>
+                </div>
+                <!-- Stat 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-eco-green">
+                    <p id="stat-pohon" class="text-5xl font-extrabold text-eco-dark mb-1">0</p>
+                    <p class="text-sm font-semibold text-gray-500 uppercase">Pohon Diselamatkan (Setara)</p>
+                </div>
+                <!-- Stat 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-eco-green">
+                    <p id="stat-reward" class="text-5xl font-extrabold text-eco-dark mb-1">0</p>
+                    <p class="text-sm font-semibold text-gray-500 uppercase">Total Eco-Poin Diberikan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Impact Comparison Section -->
+    <section id="dampak" class="py-20 bg-white">
+        <div class="container-padding">
+            <h2 class="section-title text-center">Visualisasi Perubahan Nyata</h2>
+            <p class="text-lg text-gray-500 mb-12 text-center max-w-4xl mx-auto">
+                Lihat bagaimana tindakan kolektif kita mengubah lingkungan yang tercemar menjadi ruang hijau yang layak huni.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- Before/Polluted -->
+                <div class="relative group overflow-hidden rounded-xl shadow-2xl">
+                    <img src="https://petapixel.com/assets/uploads/2022/04/pollution-in-popular-tourist-spots.jpg" 
+                         alt="Polluted environment" 
+                         class="w-full h-80 object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-red-600/70 flex items-center justify-center">
+                        <span class="text-white text-3xl font-bold border-4 border-white p-4 rounded-full">SEBELUM</span>
+                    </div>
+                </div>
+
+                <!-- After/Clean -->
+                <div class="relative group overflow-hidden rounded-xl shadow-2xl">
+                    <img src="https://www.treehugger.com/thmb/f2ikNhE09KyLFgRovdVGkNchFZM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-103922818-6d687f6751414fdc9d24737af316ba97.jpg" 
+                         alt="Clean city park environment" 
+                         class="w-full h-80 object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-eco-green/70 flex items-center justify-center">
+                        <span class="text-white text-3xl font-bold border-4 border-white p-4 rounded-full">SESUDAH</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <p class="text-xl text-eco-dark font-semibold">
+                    Mari kita jaga momentum ini. Mulailah kontribusi Anda hari ini.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Download CTA Section -->
+    <section id="unduh" class="py-20 bg-eco-dark">
+        <div class="container-padding grid md:grid-cols-5 gap-10 items-center">
+            
+            <!-- CTA Text -->
+            <div class="md:col-span-3 text-white">
+                <h2 class="text-4xl font-extrabold mb-4">Siap Bergabung dengan Gerakan Hijau?</h2>
+                <p class="text-eco-light text-xl mb-6">
+                    EcoClean tersedia gratis di App Store dan Google Play. Unduh sekarang dan mulai hidup yang lebih berkelanjutan.
+                </p>
+                <div class="flex gap-4 flex-wrap">
+                    <a href="#" class="flex items-center bg-white text-gray-900 py-3 px-6 rounded-lg font-semibold hover:bg-gray-100 transition duration-300 shadow-lg">
+                        <i data-lucide="apple" class="w-6 h-6 mr-2"></i> App Store
+                    </a>
+                    <a href="#" class="flex items-center bg-white text-gray-900 py-3 px-6 rounded-lg font-semibold hover:bg-gray-100 transition duration-300 shadow-lg">
+                        <i data-lucide="play-circle" class="w-6 h-6 mr-2"></i> Google Play
+                    </a>
+                </div>
+            </div>
+
+            <!-- CTA Image (App in hand) -->
+            <div class="md:col-span-2 flex justify-center">
+                <img src="https://thumbs.dreamstime.com/b/hand-holds-smartphone-lush-greenery-symbolizing-digital-detox-nature-connection-eco-friendly-technology-blank-screen-367252883.jpg" 
+                     alt="Hand holding a smart phone with eco app open" 
+                     class="w-full max-w-xs rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] transform hover:scale-105 transition duration-500">
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Newsletter/Contact Form -->
+    <section id="kontak" class="py-16 bg-bg-light">
+        <div class="container-padding grid md:grid-cols-2 gap-10 items-center">
+            <div>
+                <h3 class="text-3xl font-bold text-eco-dark mb-3">Dapatkan Tips Daur Ulang Mingguan</h3>
+                <p class="text-gray-600">
+                    Langganan newsletter kami untuk panduan terbaru, berita lingkungan, dan informasi hadiah eksklusif.
+                </p>
+            </div>
+            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3">
+                <input type="email" id="email-input" placeholder="Masukkan Email Anda" required 
+                       class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eco-green focus:border-eco-green">
+                <button type="submit" 
+                        class="w-full sm:w-auto bg-eco-green text-white py-3 px-6 rounded-lg font-semibold hover:bg-eco-dark transition duration-300">
+                    Daftar
+                </button>
+            </form>
+            <div id="newsletter-message" class="mt-4 md:col-span-2 hidden p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg transition duration-500">
+                Terima kasih! Email Anda telah terdaftar. Sampai jumpa di kotak masuk!
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container-padding grid grid-cols-2 md:grid-cols-5 gap-8">
+            
+            <!-- Logo & Company Info -->
+            <div class="col-span-2 md:col-span-2">
+                <div class="flex items-center space-x-2 mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Recycle001.svg" alt="EcoClean Logo" class="w-8 h-8 filter invert">
+                    <span class="text-2xl font-bold text-eco-green">EcoClean</span>
+                </div>
+                <p class="text-gray-400 text-sm max-w-xs">
+                    Memimpin revolusi daur ulang digital. Bersihkan dunia, satu sampah pada satu waktu.
+                </p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-eco-green"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-eco-green"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-eco-green"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="font-semibold text-lg mb-4 text-eco-green">Navigasi</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#fitur" class="text-gray-400 hover:text-white transition">Fitur</a></li>
+                    <li><a href="#statistik" class="text-gray-400 hover:text-white transition">Dampak</a></li>
+                    <li><a href="#unduh" class="text-gray-400 hover:text-white transition">Download App</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Blog Lingkungan</a></li>
+                </ul>
+            </div>
+
+            <!-- Dukungan -->
+            <div>
+                <h4 class="font-semibold text-lg mb-4 text-eco-green">Dukungan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Pusat Bantuan</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Syarat Layanan</a></li>
+                </ul>
+            </div>
+
+            <!-- Kontak -->
+            <div>
+                <h4 class="font-semibold text-lg mb-4 text-eco-green">Hubungi Kami</h4>
+                <p class="text-gray-400 text-sm">
+                    EcoClean HQ<br>
+                    Jl. Daur Ulang No. 5, Jakarta<br>
+                    Email: support@ecoclean.id
+                </p>
+            </div>
+        </div>
+
+        <div class="container-padding mt-10 border-t border-gray-700 pt-6 text-center">
+            <p class="text-sm text-gray-500">&copy; 2024 EcoClean. Semua Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Fungsionalitas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initialize Lucide Icons
+            lucide.createIcons();
+
+            // 2. Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuButton.querySelector('svg');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.setAttribute('data-lucide', 'menu');
+                } else {
+                    icon.setAttribute('data-lucide', 'x');
+                }
+                lucide.createIcons(); // Re-render icon after change
+            });
+
+            // Hide menu when a link is clicked (for smoother mobile navigation)
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.querySelector('svg').setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                });
+            });
+
+
+            // 3. Dynamic Counter Animation for Statistics
+            function animateValue(id, start, end, duration) {
+                const obj = document.getElementById(id);
+                if (!obj) return;
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString('id-ID');
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // Define target statistics
+            const statsTargets = {
+                'stat-massa': 125000, // Kg Sampah
+                'stat-users': 78500,  // Pengguna
+                'stat-pohon': 9500,   // Pohon
+                'stat-reward': 15000000 // Eco-Poin
+            };
+
+            // Intersection Observer to start animation when stats section is visible
+            const statsSection = document.getElementById('statistik');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        for (const id in statsTargets) {
+                            animateValue(id, 0, statsTargets[id], 2000);
+                        }
+                        observer.unobserve(statsSection); // Stop observing after animation runs once
+                    }
+                });
+            }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+
+
+            // 4. Newsletter Form Submission Handling
+            const newsletterForm = document.getElementById('newsletter-form');
+            const newsletterMessage = document.getElementById('newsletter-message');
+
+            newsletterForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Simulate API call delay
+                this.querySelector('button').textContent = 'Memproses...';
+                this.querySelector('button').disabled = true;
+
+                setTimeout(() => {
+                    // Success feedback
+                    newsletterMessage.classList.remove('hidden');
+                    
+                    // Reset form and button state
+                    document.getElementById('email-input').value = '';
+                    this.querySelector('button').textContent = 'Daftar';
+                    this.querySelector('button').disabled = false;
+
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        newsletterMessage.classList.add('hidden');
+                    }, 5000);
+                    
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
