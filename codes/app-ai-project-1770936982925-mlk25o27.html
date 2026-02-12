@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseTask: Aplikasi Daftar Tugas Profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+        }
+        .task-item {
+            transition: all 0.3s ease;
+        }
+        .completed-text {
+            text-decoration: line-through;
+            color: #64748b; /* slate-500 */
+        }
+        .priority-dot {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-xl">
+
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-6 border-b border-indigo-900 pb-4">
+            <div class="flex items-center space-x-2">
+                <img src="https://cdn-icons-png.flaticon.com/512/1/1560.png" alt="Todo Icon" class="w-8 h-8 opacity-90">
+                <h1 class="text-3xl font-extrabold text-indigo-400 tracking-tight">PulseTask</h1>
+            </div>
+            <button id="settingsBtn" class="p-2 rounded-full hover:bg-slate-700 transition">
+                <i data-lucide="settings" class="w-6 h-6 text-slate-400"></i>
+            </button>
+        </header>
+        
+        <!-- Task Input Section -->
+        <section class="bg-slate-800 p-4 rounded-xl shadow-2xl mb-6 border border-indigo-700">
+            <h2 class="text-xl font-semibold mb-3 text-indigo-300">Tambah Tugas Baru</h2>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="newTaskInput" placeholder="Deskripsikan tugas Anda..."
+                       class="flex-grow p-3 rounded-lg bg-slate-700 border border-slate-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-slate-400 transition">
+                
+                <button id="addTaskBtn"
+                        class="shrink-0 flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md transition transform hover:scale-[1.01] active:scale-95">
+                    <i data-lucide="plus" class="w-5 h-5 mr-2"></i> Tambah
+                </button>
+            </div>
+            
+            <div class="mt-3 flex items-center justify-between">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" id="priorityCheckbox"
+                           class="w-4 h-4 text-red-500 bg-slate-700 border-slate-600 rounded focus:ring-red-500">
+                    <span class="text-sm text-slate-300">Prioritas Tinggi?</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- Task Filters and Search -->
+        <section class="mb-6 bg-slate-800 p-4 rounded-xl border border-slate-700">
+            <h3 class="text-lg font-semibold mb-3 text-slate-300">Filter & Cari</h3>
+            
+            <!-- Search Bar -->
+            <div class="mb-4">
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                    <input type="text" id="searchTaskInput" placeholder="Cari tugas..."
+                           class="w-full p-3 pl-10 rounded-lg bg-slate-700 border border-slate-600 focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-slate-400 transition" onkeyup="searchTasks()">
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div id="filterContainer" class="flex flex-wrap gap-2 text-sm">
+                <button data-filter="all" class="filter-btn bg-indigo-600 text-white px-3 py-1.5 rounded-full font-medium transition hover:bg-indigo-500">Semua</button>
+                <button data-filter="active" class="filter-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full transition hover:bg-slate-600">Aktif</button>
+                <button data-filter="completed" class="filter-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full transition hover:bg-slate-600">Selesai</button>
+                <button data-filter="priority" class="filter-btn bg-red-800 text-white px-3 py-1.5 rounded-full transition hover:bg-red-700 flex items-center">
+                    <i data-lucide="alert-triangle" class="w-4 h-4 mr-1"></i> Prioritas
+                </button>
+            </div>
+        </section>
+
+        <!-- Task List Display -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 text-slate-200">Daftar Tugas Anda</h2>
+            
+            <!-- Empty State Placeholder -->
+            <div id="emptyState" class="hidden text-center p-10 bg-slate-800 rounded-xl border border-dashed border-slate-700 mt-6">
+                <img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" alt="Empty List" class="w-32 h-32 mx-auto mb-4 opacity-70">
+                <p class="text-xl font-semibold text-slate-400 mb-2">Semua Beres!</p>
+                <p class="text-slate-500">Anda belum memiliki tugas yang aktif. Tambahkan yang baru di atas!</p>
+            </div>
+
+            <!-- Task List Container -->
+            <ul id="taskList" class="space-y-3">
+                <!-- Tasks rendered here by JS -->
+            </ul>
+        </section>
+
+        <!-- Footer / Status Bar -->
+        <footer class="text-center py-4 text-sm text-slate-500 border-t border-slate-800 mt-auto">
+            <p id="taskStatus"></p>
+            <p class="mt-1">Dibuat dengan <span class="text-indigo-400">Vanilla JS & Tailwind</span></p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- Global Variables and Initial Setup ---
+        const TASK_STORAGE_KEY = 'pulseTaskData';
+        let currentFilter = 'all';
+
+        const taskListEl = document.getElementById('taskList');
+        const newTaskInput = document.getElementById('newTaskInput');
+        const priorityCheckbox = document.getElementById('priorityCheckbox');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const emptyStateEl = document.getElementById('emptyState');
+        const taskStatusEl = document.getElementById('taskStatus');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        let tasks = [];
+
+        // --- Utility Functions ---
+
+        /** Loads tasks from localStorage or returns default data */
+        function loadTasks() {
+            const storedTasks = localStorage.getItem(TASK_STORAGE_KEY);
+            if (storedTasks) {
+                tasks = JSON.parse(storedTasks);
+            } else {
+                // Initial Sample Data (for professional feel)
+                tasks = [
+                    { id: Date.now() + 1, text: "Selesaikan Laporan Q3 Pemasaran", completed: false, priority: true },
+                    { id: Date.now() + 2, text: "Beli kebutuhan mingguan (Sayur & Buah)", completed: false, priority: false },
+                    { id: Date.now() + 3, text: "Review Pull Request dari Tim Backend", completed: true, priority: false },
+                ];
+            }
+        }
+
+        /** Saves the current tasks array to localStorage */
+        function saveTasks() {
+            localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks));
+        }
+
+        /** Updates the status text and empty state visibility */
+        function updateUIStatus() {
+            const activeTasks = tasks.filter(t => !t.completed).length;
+            const completedTasks = tasks.filter(t => t.completed).length;
+
+            if (tasks.length === 0) {
+                emptyStateEl.classList.remove('hidden');
+                taskStatusEl.textContent = "Tidak ada tugas. Mari kita mulai!";
+            } else {
+                emptyStateEl.classList.add('hidden');
+                taskStatusEl.textContent = `${activeTasks} tugas aktif / ${completedTasks} selesai.`;
+            }
+        }
+
+        // --- Task Manipulation Functions ---
+
+        /** Adds a new task to the array */
+        function addTask() {
+            const text = newTaskInput.value.trim();
+            if (text === '') return;
+
+            const isPriority = priorityCheckbox.checked;
+
+            const newTask = {
+                id: Date.now(),
+                text: text,
+                completed: false,
+                priority: isPriority,
+            };
+
+            tasks.unshift(newTask); // Add to the beginning
+            saveTasks();
+            
+            // Clear input fields
+            newTaskInput.value = '';
+            priorityCheckbox.checked = false;
+
+            renderTasks();
+        }
+
+        /** Toggles the 'completed' status of a task */
+        function toggleTaskCompletion(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveTasks();
+                renderTasks();
+            }
+        }
+
+        /** Deletes a task by ID */
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks();
+        }
+        
+        // --- Rendering and Filtering ---
+
+        /** Creates the HTML structure for a single task item */
+        function createTaskElement(task) {
+            const li = document.createElement('li');
+            li.className = `task-item flex items-center p-4 rounded-lg shadow-md border ${task.completed ? 'bg-slate-700/50 border-slate-700' : task.priority ? 'bg-red-900/40 border-red-800' : 'bg-slate-700 border-slate-600'} hover:bg-slate-600 transition duration-200 ease-in-out`;
+            li.setAttribute('data-id', task.id);
+
+            // Checkbox and Text Container
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'flex items-center flex-grow space-x-3 cursor-pointer';
+            contentDiv.onclick = () => toggleTaskCompletion(task.id);
+
+            // Checkbox Icon (using Lucide icons)
+            const checkboxIcon = document.createElement('i');
+            checkboxIcon.setAttribute('data-lucide', task.completed ? 'check-circle' : 'circle');
+            checkboxIcon.className = `w-6 h-6 shrink-0 ${task.completed ? 'text-indigo-400' : 'text-slate-400 hover:text-indigo-300'}`;
+            contentDiv.appendChild(checkboxIcon);
+
+            // Task Text
+            const textSpan = document.createElement('span');
+            textSpan.className = `flex-grow font-medium truncate ${task.completed ? 'completed-text' : 'text-slate-200'}`;
+            textSpan.textContent = task.text;
+            contentDiv.appendChild(textSpan);
+
+            li.appendChild(contentDiv);
+
+            // Priority Indicator and Delete Button
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'flex items-center space-x-3 ml-4 shrink-0';
+
+            // Priority Indicator
+            if (task.priority && !task.completed) {
+                const priorityDot = document.createElement('span');
+                priorityDot.className = 'priority-dot w-2 h-2 rounded-full bg-red-500';
+                priorityDot.setAttribute('title', 'Prioritas Tinggi');
+                actionsDiv.appendChild(priorityDot);
+            }
+
+            // Delete Button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'p-1 rounded-full text-slate-500 hover:text-red-400 hover:bg-slate-600 transition';
+            deleteBtn.innerHTML = '<i data-lucide="trash-2" class="w-5 h-5"></i>';
+            deleteBtn.onclick = (e) => {
+                e.stopPropagation();
+                deleteTask(task.id);
+            };
+            actionsDiv.appendChild(deleteBtn);
+            
+            li.appendChild(actionsDiv);
+
+            // Rerender Lucide Icons after insertion
+            setTimeout(() => lucide.createIcons(), 0);
+
+            return li;
+        }
+
+        /** Renders the list based on the current filter */
+        function renderTasks() {
+            taskListEl.innerHTML = '';
+            
+            let filteredTasks = tasks;
+            
+            if (currentFilter === 'active') {
+                filteredTasks = tasks.filter(t => !t.completed);
+            } else if (currentFilter === 'completed') {
+                filteredTasks = tasks.filter(t => t.completed);
+            } else if (currentFilter === 'priority') {
+                filteredTasks = tasks.filter(t => t.priority && !t.completed);
+            }
+
+            // Sort: Priority first, then active, then completed
+            filteredTasks.sort((a, b) => {
+                if (a.priority && !b.priority) return -1;
+                if (!a.priority && b.priority) return 1;
+                if (a.completed && !b.completed) return 1;
+                if (!a.completed && b.completed) return -1;
+                return b.id - a.id; // Latest task first
+            });
+
+            if (filteredTasks.length === 0 && tasks.length > 0 && currentFilter !== 'all') {
+                taskListEl.innerHTML = `<li class="p-6 text-center text-slate-400 bg-slate-800 rounded-lg">Tidak ada tugas dalam filter ini.</li>`;
+            } else {
+                filteredTasks.forEach(task => {
+                    taskListEl.appendChild(createTaskElement(task));
+                });
+            }
+
+            updateUIStatus();
+        }
+
+        /** Handles filtering when buttons are clicked */
+        function handleFilterClick(event) {
+            const filterType = event.target.closest('.filter-btn').dataset.filter;
+            if (filterType) {
+                currentFilter = filterType;
+                
+                // Update active button styling
+                filterBtns.forEach(btn => {
+                    if (btn.dataset.filter === currentFilter) {
+                        btn.classList.add('bg-indigo-600', 'text-white');
+                        btn.classList.remove('bg-slate-700', 'text-slate-300');
+                        if (currentFilter === 'priority') {
+                            btn.classList.add('bg-red-800');
+                        }
+                    } else {
+                        btn.classList.remove('bg-indigo-600', 'text-white', 'bg-red-800');
+                        btn.classList.add('bg-slate-700', 'text-slate-300');
+                    }
+                });
+                
+                renderTasks();
+            }
+        }
+        
+        /** Handles real-time search filtering */
+        function searchTasks() {
+            const searchTerm = document.getElementById('searchTaskInput').value.toLowerCase();
+            
+            // Temporary store the filtered results based on text matching
+            const searchedTasks = tasks.filter(t => t.text.toLowerCase().includes(searchTerm));
+            
+            // Render the search results (bypassing currentFilter)
+            taskListEl.innerHTML = '';
+            if (searchedTasks.length === 0) {
+                taskListEl.innerHTML = `<li class="p-6 text-center text-slate-400 bg-slate-800 rounded-lg">Tidak ditemukan tugas yang cocok dengan "${searchTerm}".</li>`;
+            } else {
+                searchedTasks.forEach(task => {
+                    taskListEl.appendChild(createTaskElement(task));
+                });
+            }
+            
+            // If search is cleared, revert to current filter
+            if (searchTerm === '') {
+                renderTasks();
+            }
+        }
+
+
+        // --- Event Listeners ---
+        
+        addTaskBtn.addEventListener('click', addTask);
+        newTaskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', handleFilterClick);
+        });
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTasks();
+            renderTasks();
+            lucide.createIcons();
+            
+            // Set initial filter button state
+            document.querySelector('.filter-btn[data-filter="all"]').click(); 
+        });
+    </script>
+</body>
+</html>
