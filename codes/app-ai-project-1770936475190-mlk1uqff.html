@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghibli Task Manager - Aplikasi Daftar Tugas Sederhana</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Using Image #6 as a soft background */
+            background-image: url('https://img.freepik.com/free-vector/blur-pink-blue-abstract-gradient-background-vector_53876-174836.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        /* Custom scrollbar for task list */
+        #taskList::-webkit-scrollbar {
+            width: 6px;
+        }
+        #taskList::-webkit-scrollbar-thumb {
+            background-color: #a78bfa; /* Violet 400 */
+            border-radius: 3px;
+        }
+        .task-item {
+            transition: all 0.3s ease;
+        }
+        .task-completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+            color: #6b7280; /* Gray 500 */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex justify-center items-start">
+
+    <!-- Main Container -->
+    <div class="w-full max-w-lg bg-white bg-opacity-95 backdrop-blur-sm shadow-2xl rounded-xl p-6 md:p-8 mt-8">
+        
+        <!-- Header -->
+        <header class="mb-6 border-b pb-4">
+            <h1 class="text-3xl font-extrabold text-gray-800 flex items-center">
+                <i data-lucide="list-checks" class="w-7 h-7 mr-2 text-violet-600"></i>
+                Daftar Tugas Ghibli
+            </h1>
+            <p class="text-sm text-gray-500 mt-1">Kelola tugas harianmu dengan damai dan tenang.</p>
+        </header>
+
+        <!-- Input Form -->
+        <form id="taskForm" class="flex gap-2 mb-6">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="Apa yang harus dilakukan hari ini?" 
+                required 
+                class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500 transition duration-150"
+            >
+            <button 
+                type="submit" 
+                id="addTaskButton"
+                class="bg-violet-600 text-white p-3 rounded-lg hover:bg-violet-700 transition duration-150 shadow-md flex items-center justify-center w-12 h-12 flex-shrink-0"
+                aria-label="Tambah Tugas"
+            >
+                <i data-lucide="plus" class="w-6 h-6"></i>
+            </button>
+        </form>
+
+        <!-- Stats and Filter -->
+        <div class="flex justify-between items-center mb-4 p-3 bg-gray-50 rounded-lg border">
+            <p class="text-sm font-semibold text-gray-700">Total Tugas: <span id="totalTasks" class="text-violet-600">0</span></p>
+            <div class="flex items-center space-x-2">
+                <label for="filterTasks" class="text-sm text-gray-600 hidden sm:block">Filter:</label>
+                <select id="filterTasks" class="p-1 border border-gray-300 rounded-md text-sm focus:ring-violet-500 focus:border-violet-500 cursor-pointer">
+                    <option value="all">Semua</option>
+                    <option value="active">Aktif</option>
+                    <option value="completed">Selesai</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Task List Area -->
+        <div id="taskListContainer" class="max-h-96 overflow-y-auto">
+            <!-- Loading State (Optional - hidden after load) -->
+            <div id="loadingState" class="text-center p-8 hidden">
+                <img src="https://cdn.svgator.com/images/2023/06/finger-tapping-loading-animation.gif" alt="Memuat data" class="w-20 h-20 mx-auto opacity-70">
+                <p class="text-gray-500 mt-2">Memuat tugas...</p>
+            </div>
+
+            <!-- Empty State Placeholder -->
+            <div id="emptyState" class="text-center p-12 hidden">
+                <img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" alt="Daftar kosong" class="w-32 h-32 mx-auto mb-4 opacity-80">
+                <h3 class="text-xl font-semibold text-gray-700">Tidak ada tugas!</h3>
+                <p class="text-gray-500 mt-1">Tambahkan tugas pertamamu di atas.</p>
+            </div>
+            
+            <!-- Actual Task List -->
+            <ul id="taskList" class="space-y-3">
+                <!-- Task items will be injected here by JS -->
+            </ul>
+        </div>
+        
+        <!-- Footer / Utility -->
+        <footer class="mt-6 pt-4 border-t flex justify-between items-center">
+            <button 
+                id="clearCompletedBtn" 
+                class="text-sm text-red-500 hover:text-red-700 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+            >
+                Hapus Tugas Selesai
+            </button>
+            <p class="text-xs text-gray-400">Dibuat dengan ❤️ & Vanilla JS</p>
+        </footer>
+
+    </div>
+
+    <!-- Lucide Icons Setup -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        const emptyState = document.getElementById('emptyState');
+        const totalTasksSpan = document.getElementById('totalTasks');
+        const filterTasksSelect = document.getElementById('filterTasks');
+        const clearCompletedBtn = document.getElementById('clearCompletedBtn');
+        const loadingState = document.getElementById('loadingState');
+
+        let tasks = [];
+
+        // --- Utility Functions ---
+
+        const saveTasks = () => {
+            localStorage.setItem('ghibliTasks', JSON.stringify(tasks));
+        };
+
+        const loadTasks = () => {
+            // Simulate loading delay for a better UX feel
+            loadingState.classList.remove('hidden');
+            taskList.innerHTML = '';
+            
+            setTimeout(() => {
+                loadingState.classList.add('hidden');
+                const storedTasks = localStorage.getItem('ghibliTasks');
+                if (storedTasks) {
+                    tasks = JSON.parse(storedTasks);
+                } else {
+                    // Initial dummy data for first load
+                    tasks = [
+                        { id: Date.now(), text: "Menyirami kebun bunga matahari", completed: false },
+                        { id: Date.now() + 1, text: "Membaca buku di bawah pohon besar", completed: true },
+                        { id: Date.now() + 2, text: "Membeli bahan untuk kue apel", completed: false }
+                    ];
+                    saveTasks(); // Save initial data
+                }
+                renderTasks();
+            }, 500); // 0.5 second delay
+        };
+
+        const updateStats = () => {
+            totalTasksSpan.textContent = tasks.length;
+            
+            const completedCount = tasks.filter(t => t.completed).length;
+            
+            // Toggle empty state
+            if (tasks.length === 0) {
+                emptyState.classList.remove('hidden');
+                taskList.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                taskList.classList.remove('hidden');
+            }
+
+            // Toggle clear completed button
+            clearCompletedBtn.disabled = completedCount === 0;
+        };
+
+        // --- Rendering Function ---
+
+        const renderTasks = () => {
+            const filter = filterTasksSelect.value;
+            
+            let filteredTasks = tasks.sort((a, b) => a.completed - b.completed); // Sort completed last
+
+            if (filter === 'active') {
+                filteredTasks = filteredTasks.filter(task => !task.completed);
+            } else if (filter === 'completed') {
+                filteredTasks = filteredTasks.filter(task => task.completed);
+            }
+
+            taskList.innerHTML = '';
+
+            if (filteredTasks.length === 0 && tasks.length > 0) {
+                 taskList.innerHTML = `<li class="p-4 text-center text-gray-500 italic bg-white rounded-lg shadow-inner">Tidak ada tugas dalam filter ini.</li>`;
+            } else if (tasks.length === 0) {
+                // Handled by updateStats, but ensures list is empty
+            } else {
+                filteredTasks.forEach(task => {
+                    const listItem = document.createElement('li');
+                    listItem.className = `task-item flex items-center justify-between p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-200 ${task.completed ? 'task-completed border-l-4 border-green-500' : 'border-l-4 border-violet-500'}`;
+                    
+                    // Left side: Checkbox and Text
+                    const leftContent = document.createElement('div');
+                    leftContent.className = 'flex items-center flex-grow min-w-0';
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = task.completed;
+                    checkbox.className = 'w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 mr-4 cursor-pointer';
+                    checkbox.addEventListener('change', () => toggleComplete(task.id));
+                    
+                    const taskText = document.createElement('span');
+                    taskText.className = 'break-words text-gray-800 flex-grow min-w-0';
+                    taskText.textContent = task.text;
+                    if (task.completed) {
+                        taskText.classList.add('line-through', 'text-gray-500');
+                    } else {
+                        taskText.classList.remove('line-through', 'text-gray-500');
+                    }
+
+                    leftContent.appendChild(checkbox);
+                    leftContent.appendChild(taskText);
+
+                    // Right side: Delete Button
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'ml-4 p-2 text-red-400 hover:text-red-600 transition duration-150 rounded-full hover:bg-red-50 flex-shrink-0';
+                    deleteButton.innerHTML = `<i data-lucide="trash-2" class="w-5 h-5"></i>`;
+                    deleteButton.addEventListener('click', () => deleteTask(task.id));
+                    
+                    // Re-initialize Lucide icons within the new list item
+                    listItem.appendChild(leftContent);
+                    listItem.appendChild(deleteButton);
+                    taskList.appendChild(listItem);
+                });
+                lucide.createIcons(); // Re-render icons after adding to DOM
+            }
+
+            updateStats();
+        };
+
+        // --- CRUD Operations ---
+
+        const addTask = (text) => {
+            const newTask = {
+                id: Date.now(),
+                text: text.trim(),
+                completed: false
+            };
+
+            if (newTask.text.length > 0) {
+                tasks.push(newTask);
+                saveTasks();
+                renderTasks();
+                taskInput.value = '';
+            }
+        };
+
+        const toggleComplete = (id) => {
+            const taskIndex = tasks.findIndex(task => task.id === id);
+            if (taskIndex !== -1) {
+                tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                saveTasks();
+                renderTasks();
+            }
+        };
+
+        const deleteTask = (id) => {
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks();
+            renderTasks();
+        };
+
+        const clearCompletedTasks = () => {
+            const activeTasks = tasks.filter(task => !task.completed);
+            
+            if (activeTasks.length < tasks.length) {
+                 if (confirm("Apakah Anda yakin ingin menghapus semua tugas yang telah selesai?")) {
+                    tasks = activeTasks;
+                    saveTasks();
+                    renderTasks();
+                 }
+            }
+        };
+
+        // --- Event Listeners ---
+
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            addTask(taskInput.value);
+        });
+
+        filterTasksSelect.addEventListener('change', renderTasks);
+        
+        clearCompletedBtn.addEventListener('click', clearCompletedTasks);
+
+        // --- Initialization ---
+        loadTasks();
+    </script>
+</body>
+</html>
