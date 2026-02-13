@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bromo Tengger Semeru: Keajaiban Alam Jawa Timur</title>
+    
+    <!-- Google Fonts: Poppins (Sans-serif) for body/UI, Lora (Serif) for headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Font Setup */
+        :root {
+            --color-primary: #588157; /* Deep Forest Green */
+            --color-secondary: #A3B18A; /* Soft Sage */
+            --color-accent: #EFE4D6; /* Off-white/Sand */
+            --color-dark: #344E41; /* Dark Green/Black */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--color-dark);
+            background-color: #F8F9FA;
+        }
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: var(--color-dark);
+        }
+        .text-primary { color: var(--color-primary); }
+        .bg-primary { background-color: var(--color-primary); }
+        .bg-accent { background-color: var(--color-accent); }
+        .border-primary { border-color: var(--color-primary); }
+        
+        /* Custom utilities for smooth transitions */
+        .transition-all-ease {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md transition-all-ease">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <i data-lucide="mountain" class="w-6 h-6 text-primary"></i>
+                    <span class="text-xl font-bold text-dark">Bromo Explore</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#hero" class="text-gray-600 hover:text-primary transition-all-ease font-medium">Beranda</a>
+                    <a href="#atraksi" class="text-gray-600 hover:text-primary transition-all-ease font-medium">Atraksi Utama</a>
+                    <a href="#galeri" class="text-gray-600 hover:text-primary transition-all-ease font-medium">Galeri</a>
+                    <a href="#paket" class="text-gray-600 hover:text-primary transition-all-ease font-medium">Paket Tur</a>
+                    <a href="#faq" class="text-gray-600 hover:text-primary transition-all-ease font-medium">FAQ</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-white shadow-lg border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#hero" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Beranda</a>
+                <a href="#atraksi" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Atraksi Utama</a>
+                <a href="#galeri" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Galeri</a>
+                <a href="#paket" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Paket Tur</a>
+                <a href="#faq" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">FAQ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        <!-- Background Image (URL 12) -->
+        <img src="https://images.pexels.com/photos/32166263/pexels-photo-32166263/free-photo-of-stunning-view-of-mount-bromo-at-sunrise.jpeg" 
+             alt="Pemandangan matahari terbit di Gunung Bromo" 
+             class="absolute inset-0 w-full h-full object-cover brightness-[.65] z-0">
+        
+        <!-- Overlay Content -->
+        <div class="relative z-10 text-center text-white p-6 max-w-4xl mx-auto">
+            <p class="text-xl md:text-2xl font-semibold mb-4 tracking-wider uppercase bg-primary/70 inline-block px-3 py-1 rounded-full">
+                Jawa Timur, Indonesia
+            </p>
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-extrabold leading-tight drop-shadow-lg" style="font-family: 'Lora', serif;">
+                Bromo Tengger Semeru
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl font-light drop-shadow-md">
+                Saksikan matahari terbit paling dramatis di dunia, menari di atas lautan awan dan kaldera vulkanik yang megah.
+            </p>
+            <a href="#paket" class="mt-10 inline-flex items-center px-8 py-3 border border-transparent text-lg font-medium rounded-full text-dark bg-accent hover:bg-white transition-all-ease shadow-xl">
+                Jelajahi Paket Tur Kami <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+            </a>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 animate-bounce">
+            <i data-lucide="chevrons-down" class="w-8 h-8 text-white"></i>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-bold mb-4">Mengenal Lebih Dekat Pesona Bromo</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    Taman Nasional Bromo Tengger Semeru adalah kompleks pegunungan berapi purba yang menawarkan lanskap unik. Ini bukan hanya tentang gunung, melainkan tentang kaldera purba yang luas, lautan pasir yang sunyi, dan budaya Suku Tengger yang spiritual.
+                </p>
+                <p class="text-gray-700 mb-4">
+                    Bromo (2.329m) dikenal karena aktivitasnya yang konsisten, menjadikannya salah satu ikon wisata alam terbaik di Indonesia. Kunjungan Anda adalah perpaduan petualangan (naik jeep, hiking) dan pengalaman spiritual (menyaksikan ritual adat).
+                </p>
+                <div class="flex space-x-6 mt-8">
+                    <div class="flex items-center space-x-2 text-primary">
+                        <i data-lucide="thermometer-sun" class="w-6 h-6"></i>
+                        <span class="font-semibold">Dingin Dini Hari (5°C)</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-primary">
+                        <i data-lucide="calendar" class="w-6 h-6"></i>
+                        <span class="font-semibold">Waktu Terbaik: Mei-Okt</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Image (URL 4: Crater landscape) -->
+            <div class="relative shadow-2xl rounded-xl overflow-hidden">
+                <img src="https://media.istockphoto.com/id/494386476/photo/sunrise-at-mount-bromo.jpg?s=612x612&w=0&k=20&c=9m5nn5TrrVARq87Ha1IgCE-gCASORyKMLqIvA4-l3UA=" 
+                     alt="Kawah Gunung Bromo" 
+                     class="w-full h-80 object-cover md:h-full transition-transform duration-500 hover:scale-105">
+                <div class="absolute bottom-0 left-0 p-4 bg-dark/70 text-white w-full">
+                    <p class="text-sm font-light">Pemandangan Kawah saat Sunrise</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Attractions Section -->
+    <section id="atraksi" class="py-20 bg-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Destinasi Wajib di Bromo</h2>
+            <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+                Petualangan Bromo tidak lengkap tanpa mengunjungi empat titik ikonik ini, yang seluruhnya bisa diakses dengan Jip 4x4.
+            </p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- 1. Sunrise Viewpoint -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all-ease border-t-4 border-primary">
+                    <i data-lucide="sun-medium" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                    <h3 class="text-2xl font-semibold mb-3">Sunrise Penanjakan</h3>
+                    <p class="text-gray-600 text-sm">Titik tertinggi untuk menyaksikan matahari terbit yang menerangi kaldera, Lautan Pasir, dan Gunung Semeru di kejauhan. Berangkat pukul 03.00 pagi.</p>
+                </div>
+
+                <!-- 2. Kawah Bromo -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all-ease border-t-4 border-primary">
+                    <i data-lucide="volcano" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                    <h3 class="text-2xl font-semibold mb-3">Kawah Aktif</h3>
+                    <p class="text-gray-600 text-sm">Daki 250 anak tangga setelah melintasi Lautan Pasir untuk melihat ke dalam kawah. Rasakan aroma belerang dan pemandangan geologi yang luar biasa.</p>
+                </div>
+                
+                <!-- 3. Pasir Berbisik -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all-ease border-t-4 border-primary">
+                    <i data-lucide="wind" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                    <h3 class="text-2xl font-semibold mb-3">Lautan Pasir</h3>
+                    <p class="text-gray-600 text-sm">Hamparan gurun vulkanik yang sunyi, yang konon mengeluarkan suara "bisikan" saat angin kencang berhembus. Tempat terbaik untuk foto Jip ikonik.</p>
+                </div>
+
+                <!-- 4. Bukit Teletubbies -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all-ease border-t-4 border-primary">
+                    <i data-lucide="droplets" class="w-10 h-10 text-primary mb-4 mx-auto"></i>
+                    <h3 class="text-2xl font-semibold mb-3">Padang Savana</h3>
+                    <p class="text-gray-600 text-sm">Kontras sempurna dengan Lautan Pasir. Padang rumput hijau yang luas, sering disebut "Bukit Teletubbies" karena bentuknya yang melengkung indah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeri" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-4 text-center">Momen Terbaik di Bromo</h2>
+            <p class="text-xl text-gray-600 mb-12 text-center">
+                Visualisasi petualangan yang menanti Anda.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Image 1 (Sunrise Landscape - URL 28) -->
+                <div class="relative overflow-hidden rounded-lg shadow-md group aspect-[3/4] md:aspect-square">
+                    <img src="https://images.pexels.com/photos/16125079/pexels-photo-16125079.jpeg?cs=srgb&dl=pexels-irl-n-16125079.jpg&fm=jpg" 
+                         alt="Sunrise Landscape Bromo" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                        <span class="text-white text-sm font-semibold">Sunrise View</span>
+                    </div>
+                </div>
+                
+                <!-- Image 2 (Savana - URL 9) -->
+                <div class="relative overflow-hidden rounded-lg shadow-md group aspect-[3/4] md:aspect-square">
+                    <img src="https://media.istockphoto.com/id/472276626/photo/bromo-volcano-savanna-at-sunrise.jpg?s=612x612&w=0&k=20&c=23ccWvFD2DZHnV51ZePKlq36J3YYCCdgAo9qw-MiuWA=" 
+                         alt="Padang Savana Bromo" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                        <span class="text-white text-sm font-semibold">Padang Savana</span>
+                    </div>
+                </div>
+
+                <!-- Image 3 (Jeep - URL 14) -->
+                <div class="relative overflow-hidden rounded-lg shadow-md group aspect-[3/4] md:aspect-square">
+                    <img src="https://c8.alamy.com/comp/KCTWKR/jeep-tour-at-bromo-tengger-in-semeru-national-park-KCTWKR.jpg" 
+                         alt="Jeep Tour Bromo" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                        <span class="text-white text-sm font-semibold">Jip 4x4 Ikonik</span>
+                    </div>
+                </div>
+                
+                <!-- Image 4 (Crater/Activity - URL 26) -->
+                <div class="relative overflow-hidden rounded-lg shadow-md group aspect-[3/4] md:aspect-square">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/65/63/3a/caption.jpg?w=500&h=400&s=1" 
+                         alt="Tourist activities Bromo" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                        <span class="text-white text-sm font-semibold">Aktivitas di Kawah</span>
+                    </div>
+                </div>
+
+                <!-- Image 5 (Hiking Trail - URL 1) -->
+                <div class="relative overflow-hidden rounded-lg shadow-md group aspect-video md:aspect-square md:col-span-2">
+                    <img src="http://www.travelmarbles.com/wp-content/uploads/2018/06/BROMO-MAPS-2.jpg" 
+                         alt="Hiking trail Bromo" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-dark/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                        <span class="text-white text-sm font-semibold">Jalur Lautan Pasir</span>
+                    </div>
+                </div>
+
+                <!-- Image 6 (Accommodation - URL 18) -->
+                <div class="relative overflow-hidden rounded-lg shadow-md group aspect-video md:aspect-square md:col-span-2">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/14/f0/de/55/20181003-162116-largejpg.jpg" 
+                         alt="Accommodation near Bromo" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-dark/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-start p-3">
+                        <span class="text-white text-sm font-semibold">Akomodasi Nyaman</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Packages Section -->
+    <section id="paket" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Pilih Paket Tur Ideal Anda</h2>
+            <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+                Kami menyediakan berbagai pilihan tur yang disesuaikan dengan waktu dan preferensi perjalanan Anda, semua sudah termasuk Jip 4x4.
+            </p>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- Package Card 1: Midnight Dash -->
+                <div id="package-1" class="package-card bg-white p-8 rounded-xl shadow-xl border-2 border-transparent hover:border-primary transition-all-ease cursor-pointer" onclick="selectPackage(1)">
+                    <div class="text-3xl font-bold text-primary mb-2">Midnight Dash (1D)</div>
+                    <p class="text-gray-500 mb-6">Cocok untuk yang terburu-buru dan ingin melihat semua ikon Bromo dalam 12 jam.</p>
+                    <div class="text-5xl font-extrabold text-dark mb-4">Rp 550K<span class="text-base font-medium text-gray-500"> / Orang</span></div>
+                    
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Jip 4x4 Private (Maks 6 org)</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Tiket Masuk (WNI)</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Sunrise Viewpoint</li>
+                        <li class="flex items-center text-gray-500"><i data-lucide="x-circle" class="w-5 h-5 text-red-400 mr-2"></i> Akomodasi/Hotel</li>
+                    </ul>
+
+                    <button class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-dark transition-all-ease">Pesan Sekarang</button>
+                </div>
+
+                <!-- Package Card 2: Bromo Lengkap (Pilihan Populer) -->
+                <div id="package-2" class="package-card bg-white p-8 rounded-xl shadow-2xl border-2 border-primary transition-all-ease cursor-pointer scale-[1.05]" onclick="selectPackage(2)">
+                    <div class="absolute -top-4 right-0 bg-red-500 text-white text-xs font-bold py-1 px-3 rounded-bl-lg rounded-tr-xl">POPULER</div>
+                    <div class="text-3xl font-bold text-primary mb-2">Bromo Lengkap (2D1N)</div>
+                    <p class="text-gray-500 mb-6">Pengalaman Bromo yang nyaman, termasuk akomodasi dan istirahat yang cukup.</p>
+                    <div class="text-5xl font-extrabold text-dark mb-4">Rp 1.350K<span class="text-base font-medium text-gray-500"> / Orang</span></div>
+                    
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Jip 4x4 Private + Driver</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Tiket Masuk (WNI)</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Hotel / Homestay 1 Malam</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Sarapan Pagi</li>
+                    </ul>
+
+                    <button class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-dark transition-all-ease">Pesan Sekarang</button>
+                </div>
+
+                <!-- Package Card 3: Explore Semeru -->
+                <div id="package-3" class="package-card bg-white p-8 rounded-xl shadow-xl border-2 border-transparent hover:border-primary transition-all-ease cursor-pointer" onclick="selectPackage(3)">
+                    <div class="text-3xl font-bold text-primary mb-2">Explore Semeru (3D2N)</div>
+                    <p class="text-gray-500 mb-6">Bagi pendaki sejati. Kombinasi Bromo Sunrise dan pendakian Mahameru (perlu izin).</p>
+                    <div class="text-5xl font-extrabold text-dark mb-4">Rp 3.200K<span class="text-base font-medium text-gray-500"> / Orang</span></div>
+                    
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Transportasi Malang/Surabaya</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Izin Pendakian Semeru</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Guide dan Porter</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2"></i> Tenda dan Logistik</li>
+                    </ul>
+
+                    <button class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-dark transition-all-ease">Pesan Sekarang</button>
+                </div>
+            </div>
+            
+            <p id="package-detail" class="mt-8 text-lg font-medium text-gray-700">
+                Anda memilih Paket Bromo Lengkap (2D1N). Detail perjalanan akan dikirim via WhatsApp setelah pemesanan.
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-10 text-center">Pertanyaan Yang Sering Diajukan</h2>
+            
+            <div id="accordion-container" class="space-y-4">
+                
+                <!-- FAQ Item 1 -->
+                <div class="border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-lg font-semibold text-left transition-all-ease hover:bg-gray-50" data-index="1">
+                        Kapan waktu terbaik untuk mengunjungi Bromo?
+                        <i data-lucide="chevron-down" class="w-5 h-5 accordion-icon transition-transform"></i>
+                    </button>
+                    <div class="accordion-content hidden p-5 pt-0 text-gray-600 bg-gray-50 transition-all-ease duration-300">
+                        <p>Waktu terbaik adalah saat musim kemarau, antara bulan Mei hingga Oktober. Pada periode ini, langit cenderung cerah, minim kabut, sehingga pemandangan matahari terbit lebih spektakuler. Hindari musim hujan puncak (Desember-Februari) jika memungkinkan.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-lg font-semibold text-left transition-all-ease hover:bg-gray-50" data-index="2">
+                        Apakah Bromo berbahaya karena merupakan gunung api aktif?
+                        <i data-lucide="chevron-down" class="w-5 h-5 accordion-icon transition-transform"></i>
+                    </button>
+                    <div class="accordion-content hidden p-5 pt-0 text-gray-600 bg-gray-50 transition-all-ease duration-300">
+                        <p>Bromo adalah gunung api aktif, namun dikelola dengan ketat oleh otoritas taman nasional. Jika statusnya Siaga, pengunjung akan dilarang mendekati kawah dalam radius aman yang ditentukan. Selama dalam status Normal atau Waspada, kunjungan aman dilakukan dengan mengikuti panduan pemandu.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-lg font-semibold text-left transition-all-ease hover:bg-gray-50" data-index="3">
+                        Apakah saya perlu menyewa Jip 4x4?
+                        <i data-lucide="chevron-down" class="w-5 h-5 accordion-icon transition-transform"></i>
+                    </button>
+                    <div class="accordion-content hidden p-5 pt-0 text-gray-600 bg-gray-50 transition-all-ease duration-300">
+                        <p>Ya, Jip 4x4 wajib disewa untuk memasuki Lautan Pasir dan mencapai titik-titik pandang utama seperti Penanjakan. Kendaraan pribadi biasa tidak diizinkan masuk ke area konservasi utama. Semua paket tur kami sudah mencakup penyewaan jip.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                    <button class="accordion-header flex justify-between items-center w-full p-5 text-lg font-semibold text-left transition-all-ease hover:bg-gray-50" data-index="4">
+                        Apa saja yang harus saya bawa?
+                        <i data-lucide="chevron-down" class="w-5 h-5 accordion-icon transition-transform"></i>
+                    </button>
+                    <div class="accordion-content hidden p-5 pt-0 text-gray-600 bg-gray-50 transition-all-ease duration-300">
+                        <p>Penting untuk membawa pakaian sangat hangat (jaket tebal, syal, kupluk, sarung tangan) karena suhu dini hari bisa mencapai 5°C. Selain itu, bawa masker (untuk debu/belerang di kawah), sepatu hiking, dan senter/headlamp.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-gray-300 pt-12 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-10">
+            
+            <!-- Company Info -->
+            <div>
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                    <i data-lucide="mountain" class="w-5 h-5 mr-2 text-primary"></i> Bromo Explore
+                </h3>
+                <p class="text-sm">
+                    Penyedia layanan tur terbaik untuk menjelajahi keindahan Taman Nasional Bromo Tengger Semeru. Keamanan dan pengalaman tak terlupakan adalah prioritas kami.
+                </p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Navigasi</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#atraksi" class="hover:text-primary transition-colors">Atraksi Utama</a></li>
+                    <li><a href="#paket" class="hover:text-primary transition-colors">Pesan Tur</a></li>
+                    <li><a href="#galeri" class="hover:text-primary transition-colors">Galeri Foto</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Blog & Artikel</a></li>
+                </ul>
+            </div>
+
+            <!-- Support -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Dukungan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#faq" class="hover:text-primary transition-colors">Pusat Bantuan (FAQ)</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Hubungi Kami</h4>
+                <p class="text-sm flex items-start mb-2"><i data-lucide="phone" class="w-4 h-4 mr-2 mt-1 text-primary"></i> +62 812 3456 7890</p>
+                <p class="text-sm flex items-start mb-2"><i data-lucide="mail" class="w-4 h-4 mr-2 mt-1 text-primary"></i> info@bromoexplore.com</p>
+                
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="whatsapp" class="w-6 h-6"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 text-center text-sm text-gray-500">
+            &copy; 2024 Bromo Explore. All rights reserved. Developed by AI Full-Stack Developer.
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactivity -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 2. Accordion (FAQ) Functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('.accordion-icon');
+                
+                const isExpanded = content.classList.contains('active');
+
+                // Close all others and open current
+                document.querySelectorAll('.accordion-content').forEach(c => {
+                    if (c !== content) {
+                        c.classList.add('hidden');
+                        c.classList.remove('active');
+                    }
+                });
+                document.querySelectorAll('.accordion-icon').forEach(i => {
+                    if (i !== icon) {
+                        i.classList.remove('rotate-180');
+                    }
+                });
+
+
+                if (isExpanded) {
+                    content.classList.add('hidden');
+                    content.classList.remove('active');
+                    icon.classList.remove('rotate-180');
+                } else {
+                    content.classList.remove('hidden');
+                    content.classList.add('active');
+                    icon.classList.add('rotate-180');
+                }
+            });
+        });
+
+        // 3. Tour Package Selector
+        const packageData = {
+            1: "Anda memilih Paket Midnight Dash (1D). Ini adalah opsi tercepat untuk melihat 4 lokasi ikonik Bromo.",
+            2: "Anda memilih Paket Bromo Lengkap (2D1N). Ini adalah paket paling populer yang menawarkan kenyamanan maksimal dengan akomodasi.",
+            3: "Anda memilih Paket Explore Semeru (3D2N). Ini adalah petualangan berat yang menuntut fisik prima dan persiapan matang."
+        };
+
+        function selectPackage(id) {
+            const cards = document.querySelectorAll('.package-card');
+            cards.forEach(card => {
+                card.classList.remove('border-primary', 'shadow-2xl', 'scale-[1.05]');
+                card.classList.add('border-transparent', 'shadow-xl');
+            });
+
+            const selectedCard = document.getElementById(`package-${id}`);
+            selectedCard.classList.add('border-primary', 'shadow-2xl', 'scale-[1.05]');
+            selectedCard.classList.remove('border-transparent', 'shadow-xl');
+
+            document.getElementById('package-detail').innerText = packageData[id];
+        }
+
+        // Set default selected package on load
+        document.addEventListener('DOMContentLoaded', () => {
+            selectPackage(2);
+        });
+
+    </script>
+</body>
+</html>
