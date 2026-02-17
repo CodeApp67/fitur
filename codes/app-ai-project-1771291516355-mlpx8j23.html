@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zest 3D Studio - Ikon Lucu & Penuh Warna</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins for modern, friendly look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .text-gradient {
+            background-image: linear-gradient(to right, #f87171, #facc15, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .shadow-3d {
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.9);
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+                <div class="flex justify-start lg:w-0 lg:flex-1">
+                    <a href="#" class="flex items-center space-x-2">
+                        <span data-lucide="gem" class="w-8 h-8 text-indigo-600 fill-indigo-100"></span>
+                        <span class="text-2xl font-extrabold text-gray-900">Zest 3D</span>
+                    </a>
+                </div>
+                <div class="-mr-2 -my-2 md:hidden">
+                    <button type="button" id="mobile-menu-button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-expanded="false">
+                        <span class="sr-only">Buka menu utama</span>
+                        <span data-lucide="menu" class="h-6 w-6"></span>
+                    </button>
+                </div>
+                <nav class="hidden md:flex space-x-10">
+                    <a href="#fitur" class="text-base font-medium text-gray-500 hover:text-indigo-600 transition duration-150">Fitur Utama</a>
+                    <a href="#galeri" class="text-base font-medium text-gray-500 hover:text-indigo-600 transition duration-150">Galeri Aset</a>
+                    <a href="#kustomisasi" class="text-base font-medium text-gray-500 hover:text-indigo-600 transition duration-150">Studio Kustom</a>
+                    <a href="#harga" class="text-base font-medium text-gray-500 hover:text-indigo-600 transition duration-150">Harga</a>
+                </nav>
+                <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                    <a href="#" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150">
+                        Mulai Gratis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden hidden">
+            <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+                <div class="pt-5 pb-6 px-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-xl font-extrabold text-gray-900">Zest 3D</span>
+                        </div>
+                        <div class="-mr-2">
+                            <button type="button" id="close-menu-button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                <span class="sr-only">Tutup menu</span>
+                                <span data-lucide="x" class="h-6 w-6"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <nav class="grid gap-y-8">
+                            <a href="#fitur" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                                <span data-lucide="sparkles" class="flex-shrink-0 h-6 w-6 text-indigo-600"></span>
+                                <span class="ml-3 text-base font-medium text-gray-900">Fitur Utama</span>
+                            </a>
+                            <a href="#galeri" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                                <span data-lucide="layers" class="flex-shrink-0 h-6 w-6 text-indigo-600"></span>
+                                <span class="ml-3 text-base font-medium text-gray-900">Galeri Aset</span>
+                            </a>
+                             <a href="#kustomisasi" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                                <span data-lucide="palette" class="flex-shrink-0 h-6 w-6 text-indigo-600"></span>
+                                <span class="ml-3 text-base font-medium text-gray-900">Studio Kustom</span>
+                            </a>
+                            <a href="#harga" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                                <span data-lucide="tag" class="flex-shrink-0 h-6 w-6 text-indigo-600"></span>
+                                <span class="ml-3 text-base font-medium text-gray-900">Harga</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                <div class="py-6 px-5 space-y-6">
+                    <div>
+                        <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                            Mulai Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative pt-12 pb-20 sm:pt-24 sm:pb-32 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-tight mb-4">
+                    Buat Ikon 3D yang
+                    <span class="text-gradient">Lucu dan Tactile</span>
+                </h1>
+                <p class="mt-4 max-w-3xl mx-auto text-xl text-gray-500">
+                    Zest 3D Studio menyediakan aset dan alat kustomisasi siap pakai, dengan fokus pada desain kartun 3D yang penuh warna, bertekstur lembut, dan menawan untuk proyek Anda.
+                </p>
+                <div class="mt-10 flex justify-center space-x-4">
+                    <button class="cta-button bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200" onclick="document.getElementById('kustomisasi').scrollIntoView({ behavior: 'smooth' })">
+                        Coba Studio Gratis
+                    </button>
+                    <button class="cta-button bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 shadow-md" onclick="document.getElementById('galeri').scrollIntoView({ behavior: 'smooth' })">
+                        Lihat Galeri
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hero Image Showcase (Grid of 3D Icons) -->
+            <div class="mt-16 sm:mt-24 relative max-w-5xl mx-auto px-4">
+                <div class="grid grid-cols-3 sm:grid-cols-5 gap-4 rotate-3 transform">
+                    <!-- Image 1: colorful 3D icon design -->
+                    <div class="col-span-1 p-2 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover">
+                        <img src="https://s3-alpha.figma.com/hub/file/3940117888/eb09b914-3f90-4ec1-8919-f18e7b46f853-cover.png" alt="Ikon 3D Warna-warni" class="rounded-lg w-full h-full object-cover">
+                    </div>
+                    <!-- Image 4: 3D cute cartoon character illustration -->
+                    <div class="col-span-1 p-2 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover -rotate-3">
+                        <img src="https://i.etsystatic.com/41037372/r/il/2dd084/6153716328/il_570xN.6153716328_a81q.jpg" alt="Karakter Kartun Lucu" class="rounded-lg w-full h-full object-cover">
+                    </div>
+                    <!-- Image 10: simple 3D icon design -->
+                    <div class="col-span-1 p-2 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover rotate-1">
+                        <img src="https://cdn.dribbble.com/userupload/42811050/file/original-8513ae13aeab656d309ee4811773ec8b.png?format=webp&resize=400x300&vertical=center" alt="Ikon 3D Sederhana" class="rounded-lg w-full h-full object-cover">
+                    </div>
+                     <!-- Image 19: 3D cute animal illustration -->
+                    <div class="hidden sm:block col-span-1 p-2 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover rotate-5">
+                        <img src="https://s3-alpha.figma.com/hub/file/2229053448973099869/071d869d-e020-4ca3-9b40-674f32b95668-cover.png" alt="Ilustrasi Hewan 3D Lucu" class="rounded-lg w-full h-full object-cover">
+                    </div>
+                     <!-- Image 13: funny emoticon character -->
+                    <div class="hidden sm:block col-span-1 p-2 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover -rotate-2">
+                        <img src="https://www.shutterstock.com/image-illustration/funny-emoticon-character-face-expression-260nw-425124760.jpg" alt="Ekspresi Wajah Lucu" class="rounded-lg w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section: Unique Style -->
+        <section id="fitur" class="py-20 sm:py-28 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:text-center">
+                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">KEUNGGULAN ZEST</h2>
+                    <p class="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
+                        Desain yang Benar-benar Menonjol
+                    </p>
+                    <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                        Kami fokus pada tekstur, warna cerah, dan bentuk yang dapat diraba untuk memberikan kesan lucu dan mendalam pada setiap aset.
+                    </p>
+                </div>
+
+                <div class="mt-16 flex flex-col lg:flex-row gap-12 items-center">
+                    <!-- Text Features -->
+                    <div class="lg:w-1/2 space-y-10">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-100 text-indigo-600">
+                                    <span data-lucide="sun" class="h-6 w-6"></span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">Palet Warna Vibrant</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    Pilihan warna CMYK dan Pantone yang cerah, memastikan ikon Anda terlihat hidup di berbagai media digital.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-100 text-indigo-600">
+                                    <span data-lucide="fingerprint" class="h-6 w-6"></span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">Gaya Tactile (Dapat Diraba)</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    Permukaan yang lembut, berbulu, atau seperti adonan clay memberikan kedalaman dan kesan 'nyata' pada aset digital.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-100 text-indigo-600">
+                                    <span data-lucide="laugh" class="h-6 w-6"></span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">Ekspresi Emosional Kuat</h3>
+                                <p class="mt-2 text-base text-gray-500">
+                                    Desain yang berfokus pada emosi lucu dan menggemaskan, sempurna untuk peningkatan User Experience (UX).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Showcase (Tactile Image) -->
+                    <div class="lg:w-1/2 relative p-6 bg-gray-50 rounded-3xl shadow-2xl">
+                        <img src="https://preview.redd.it/what-is-this-tactile-abstract-3d-style-called-and-v0-s4daq9tk003g1.jpg?width=640&crop=smart&auto=webp&s=e7c7117bd61873a6714cc6d03cc8068d54474845" alt="Desain Grafis 3D Tactile" class="rounded-2xl w-full h-auto object-cover border-4 border-white transform hover:scale-[1.02] transition-transform duration-500" />
+                        <span class="absolute bottom-10 right-10 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full shadow-lg">Gaya "Play-Doh" 3D</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="galeri" class="py-20 sm:py-28 bg-f7f9fc">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Galeri Aset Populer</h2>
+                    <p class="mt-4 text-xl text-gray-500">
+                        Ratusan aset lucu siap diunduh.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Item 1 (Colorful Icon) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://s3-alpha.figma.com/hub/file/3940117888/eb09b914-3f90-4ec1-8919-f18e7b46f853-cover.png" alt="Ikon Pengaturan 3D" class="w-full h-48 object-cover md:h-56">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Ikon Utility Warna</h3>
+                            <p class="text-sm text-gray-500">Desain 3D Penuh Warna</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 (Cute Character) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://i.etsystatic.com/41037372/r/il/2dd084/6153716328/il_570xN.6153716328_a81q.jpg" alt="Karakter Kartun Manis" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Karakter Maskot Mini</h3>
+                            <p class="text-sm text-gray-500">Gaya Cute/Playful</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 (Simple Icon) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://cdn.dribbble.com/userupload/42811050/file/original-8513ae13aeab656d309ee4811773ec8b.png?format=webp&resize=400x300&vertical=center" alt="Ikon Sederhana 3D" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Geometri Sederhana</h3>
+                            <p class="text-sm text-gray-500">Minimalis 3D</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 (Funny Expression) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://www.shutterstock.com/image-illustration/funny-emoticon-character-face-expression-260nw-425124760.jpg" alt="Ekspresi Lucu" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Emotikon Ekspresif</h3>
+                            <p class="text-sm text-gray-500">Face Expressions</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 5 (Cute Animal) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://s3-alpha.figma.com/hub/file/2229053448973099869/071d869d-e020-4ca3-9b40-674f32b95668-cover.png" alt="Ilustrasi Hewan Lucu" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Ilustrasi Hewan</h3>
+                            <p class="text-sm text-gray-500">Gaya Plush/Lembut</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 (Tactile Graphic) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://www.pathstoliteracy.org/wp-content/uploads/2024/04/Aks-Water.png" alt="Grafis Tactile" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Elemen Tactile Air</h3>
+                            <p class="text-sm text-gray-500">Tekstur Khusus</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 7 (Funny Character Model) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://webneel.com/daily/sites/default/files/images/daily/02-2019/1-funny-3d-character-design-model-man-elijah-akouri.jpg" alt="Model Karakter Pria Lucu" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Model Karakter Pria</h3>
+                            <p class="text-sm text-gray-500">Gaya Low Poly Halus</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 8 (Cartoon Style) -->
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg bg-white card-hover transition duration-300 cursor-pointer">
+                        <img src="https://img.freepik.com/premium-photo/3d-animation-style-cartoon-business-character_839035-142189.jpg" alt="Ilustrasi Kartun Bisnis 3D" class="w-full h-48 object-cover md:h-56">
+                         <div class="p-4">
+                            <h3 class="font-semibold text-gray-800">Karakter Bisnis</h3>
+                            <p class="text-sm text-gray-500">3D Cartoon Style</p>
+                        </div>
+                        <div class="absolute inset-0 bg-indigo-600 bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span data-lucide="download" class="text-white w-8 h-8"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Customization Studio -->
+        <section id="kustomisasi" class="py-20 sm:py-28 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:text-center mb-12">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Studio Kustomisasi Instan</h2>
+                    <p class="mt-4 text-xl text-gray-500">
+                        Sesuaikan bentuk, tekstur, dan warna hanya dengan beberapa klik. Lihat hasilnya secara real-time.
+                    </p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-10">
+                    <!-- Customization Panel (Controls) -->
+                    <div class="lg:w-1/3 p-6 bg-gray-50 rounded-xl shadow-xl border border-gray-200 h-fit sticky top-24">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                            <span data-lucide="sliders" class="w-6 h-6 mr-2 text-indigo-600"></span> Kontrol Aset
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <!-- Warna Primer -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Warna Primer</label>
+                                <div class="flex gap-3">
+                                    <button class="color-option p-4 rounded-full transition duration-150 border-4 border-transparent focus:border-indigo-500" data-color="#3b82f6" style="background-color: #3b82f6;"></button>
+                                    <button class="color-option p-4 rounded-full transition duration-150 border-4 border-transparent focus:border-indigo-500" data-color="#f59e0b" style="background-color: #f59e0b;"></button>
+                                    <button class="color-option p-4 rounded-full transition duration-150 border-4 border-transparent focus:border-indigo-500" data-color="#ec4899" style="background-color: #ec4899;"></button>
+                                    <button class="color-option p-4 rounded-full transition duration-150 border-4 border-transparent focus:border-indigo-500" data-color="#10b981" style="background-color: #10b981;"></button>
+                                </div>
+                            </div>
+
+                            <!-- Bentuk Dasar -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Bentuk Dasar</label>
+                                <select id="shape-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                    <option value="cube">Kotak Lucu</option>
+                                    <option value="sphere">Bola Gelembung</option>
+                                    <option value="donut">Cincin Bertekstur</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Tekstur -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Gaya Tekstur</label>
+                                <div class="flex gap-4">
+                                    <button class="texture-option px-4 py-2 rounded-lg text-sm bg-indigo-50 text-indigo-700 border border-indigo-300 hover:bg-indigo-100 transition" data-texture="velvet">Beludru</button>
+                                    <button class="texture-option px-4 py-2 rounded-lg text-sm bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition" data-texture="glossy">Glossy</button>
+                                    <button class="texture-option px-4 py-2 rounded-lg text-sm bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition" data-texture="clay">Clay Dough</button>
+                                </div>
+                            </div>
+
+                             <!-- Mood/Ekspresi -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mood/Ekspresi</label>
+                                <input type="range" id="mood-slider" min="0" max="100" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>Sedih 😔</span>
+                                    <span>Gembira 😄</span>
+                                </div>
+                            </div>
+
+                            <button id="download-asset" class="mt-6 w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 transition duration-150">
+                                <span data-lucide="cloud-download" class="w-5 h-5 inline mr-2"></span> Download Aset (.PNG)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visual Output (Simulated 3D Viewer) -->
+                    <div class="lg:w-2/3 flex flex-col items-center justify-center p-8 lg:p-12 bg-gray-100 rounded-xl shadow-inner border border-gray-200 min-h-[500px]">
+                        <div id="output-viewer" class="relative w-full max-w-md h-full flex items-center justify-center">
+                            <!-- Visual placeholder based on the theme (Image 1 and its derivatives) -->
+                            <img id="custom-image" src="https://s3-alpha.figma.com/hub/file/3940117888/eb09b914-3f90-4ec1-8919-f18e7b46f853-cover.png" alt="Ikon Kustom Anda" class="w-full h-auto max-h-96 object-contain transition-all duration-500 transform scale-100 hover:scale-[1.05]" />
+                            
+                            <div class="absolute bottom-4 left-4 right-4 text-center p-3 bg-white/80 backdrop-blur-sm rounded-lg shadow-md">
+                                <p class="text-sm font-medium text-gray-700">Aset: <span id="output-shape" class="font-bold text-indigo-600">Kotak Lucu</span></p>
+                                <p class="text-sm text-gray-500">Warna: <span id="output-color-text" class="font-semibold" style="color: #3b82f6;">Biru</span> | Tekstur: <span id="output-texture" class="font-semibold">Beludru</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="harga" class="py-20 sm:py-28 bg-f7f9fc">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Dapatkan Akses Penuh</h2>
+                    <p class="mt-4 text-xl text-gray-500">
+                        Pilih paket yang sesuai dengan kebutuhan desain dan proyek Anda.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    
+                    <!-- Pricing Card 1: Gratis -->
+                    <div class="bg-white rounded-xl shadow-xl p-8 border-t-4 border-gray-300 hover:shadow-2xl transition duration-300">
+                        <h3 class="text-2xl font-bold text-gray-900">Starter</h3>
+                        <p class="mt-4 text-gray-500">Sempurna untuk proyek kecil dan personal.</p>
+                        <p class="mt-6 text-5xl font-extrabold text-gray-900">
+                            Gratis
+                            <span class="text-xl font-medium text-gray-500">/ selamanya</span>
+                        </p>
+                        <a href="#" class="mt-8 block w-full py-3 text-center rounded-full text-base font-semibold text-gray-900 bg-gray-200 hover:bg-gray-300 transition">
+                            Mulai Gratis
+                        </a>
+                        <ul role="list" class="mt-8 space-y-4">
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-indigo-600"></span>
+                                <span class="text-gray-600">10 Aset per bulan</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-indigo-600"></span>
+                                <span class="text-gray-600">Resolusi Dasar (.PNG)</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="x" class="h-5 w-5 text-red-500"></span>
+                                <span class="text-gray-400 line-through">Akses Studio Penuh</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pricing Card 2: Profesional (Highlight) -->
+                    <div class="bg-indigo-600 rounded-xl shadow-2xl p-8 transform scale-[1.05] hover:scale-100 transition duration-300 relative">
+                         <span class="absolute top-0 right-0 -mt-3 mr-4 px-3 py-1 bg-yellow-400 text-indigo-900 text-xs font-bold uppercase rounded-full shadow-lg">Paling Populer</span>
+                        <h3 class="text-2xl font-bold text-white">Pro Studio</h3>
+                        <p class="mt-4 text-indigo-200">Ideal untuk tim dan desainer profesional.</p>
+                        <p class="mt-6 text-5xl font-extrabold text-white">
+                            $29
+                            <span class="text-xl font-medium text-indigo-200">/ bulan</span>
+                        </p>
+                        <a href="#" class="mt-8 block w-full py-3 text-center rounded-full text-base font-semibold text-indigo-900 bg-yellow-400 hover:bg-yellow-500 transition shadow-lg">
+                            Pilih Paket Ini
+                        </a>
+                        <ul role="list" class="mt-8 space-y-4">
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-yellow-400"></span>
+                                <span class="text-white">Aset tak terbatas</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-yellow-400"></span>
+                                <span class="text-white">Resolusi 4K & File Source (OBJ/GLB)</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-yellow-400"></span>
+                                <span class="text-white">Akses Studio Penuh & Eksklusif</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-yellow-400"></span>
+                                <span class="text-white">Dukungan Prioritas</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Pricing Card 3: Enterprise -->
+                    <div class="bg-white rounded-xl shadow-xl p-8 border-t-4 border-indigo-600 hover:shadow-2xl transition duration-300">
+                        <h3 class="text-2xl font-bold text-gray-900">Enterprise</h3>
+                        <p class="mt-4 text-gray-500">Solusi kustom untuk korporasi besar.</p>
+                        <p class="mt-6 text-5xl font-extrabold text-gray-900">
+                            Custom
+                            <span class="text-xl font-medium text-gray-500">/ tahun</span>
+                        </p>
+                        <a href="#" class="mt-8 block w-full py-3 text-center rounded-full text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-md">
+                            Hubungi Penjualan
+                        </a>
+                        <ul role="list" class="mt-8 space-y-4">
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-indigo-600"></span>
+                                <span class="text-gray-600">Semua fitur Pro</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-indigo-600"></span>
+                                <span class="text-gray-600">Lisensi Multi-Kursi</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <span data-lucide="check" class="h-5 w-5 text-indigo-600"></span>
+                                <span class="text-gray-600">Model Kustomisasi Khusus</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 mt-12">
+        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">Tentang Kami</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">Blog</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">Ketentuan Layanan</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">Privasi</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">Dukungan</a>
+                </div>
+            </nav>
+            <div class="mt-8 flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">Facebook</span>
+                    <span data-lucide="facebook" class="h-6 w-6"></span>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">Instagram</span>
+                    <span data-lucide="instagram" class="h-6 w-6"></span>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">Twitter</span>
+                    <span data-lucide="twitter" class="h-6 w-6"></span>
+                </a>
+            </div>
+            <p class="mt-8 text-center text-base text-gray-400">
+                &copy; 2024 Zest 3D Studio. Hak Cipta Dilindungi.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Fungsionalitas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // 1. Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMenuButton = document.getElementById('close-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            const toggleMenu = () => {
+                mobileMenu.classList.toggle('hidden');
+            };
+
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            closeMenuButton.addEventListener('click', toggleMenu);
+
+            // Close menu when a link inside is clicked (for smooth scroll navigation)
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // 2. Customization Studio Logic
+            const customImage = document.getElementById('custom-image');
+            const outputShape = document.getElementById('output-shape');
+            const outputColorText = document.getElementById('output-color-text');
+            const outputTexture = document.getElementById('output-texture');
+            const shapeSelect = document.getElementById('shape-select');
+            const moodSlider = document.getElementById('mood-slider');
+            const downloadButton = document.getElementById('download-asset');
+
+            let currentState = {
+                color: '#3b82f6',
+                shape: 'cube',
+                texture: 'velvet',
+                mood: 50
+            };
+
+            // Mapping for image changes (simulation based on shape)
+            const shapeImageMap = {
+                cube: 'https://s3-alpha.figma.com/hub/file/3940117888/eb09b914-3f90-4ec1-8919-f18e7b46f853-cover.png', // Colorful icon
+                sphere: 'https://www.shutterstock.com/image-illustration/funny-emoticon-character-face-expression-260nw-425124760.jpg', // Funny sphere
+                donut: 'https://cdn.dribbble.com/userupload/42811050/file/original-8513ae13aeab656d309ee4811773ec8b.png?format=webp&resize=400x300&vertical=center' // Simple icon
+            };
+            
+            const shapeTextMap = {
+                cube: 'Kotak Lucu',
+                sphere: 'Bola Gelembung',
+                donut: 'Cincin Bertekstur'
+            }
+
+            const updateUI = () => {
+                // Update Image Source (simulated shape change)
+                customImage.src = shapeImageMap[currentState.shape];
+                
+                // Update CSS for color and mood
+                customImage.style.filter = `hue-rotate(${currentState.mood - 50}deg) saturate(1.2)`;
+                customImage.style.transform = `scale(1) rotate(${currentState.mood * 0.05 - 2.5}deg)`; 
+                
+                // Simulate texture by adding a class/shadow
+                customImage.classList.remove('shadow-3d', 'blur-sm');
+                if (currentState.texture === 'clay') {
+                    customImage.classList.add('shadow-3d');
+                } else if (currentState.texture === 'velvet') {
+                     customImage.style.filter += ' brightness(1.1)'; // Simulating softer light
+                } else if (currentState.texture === 'glossy') {
+                     customImage.style.filter += ' contrast(1.1)';
+                }
+
+                // Update Output Text
+                outputShape.textContent = shapeTextMap[currentState.shape];
+                outputColorText.textContent = currentState.color;
+                outputColorText.style.color = currentState.color;
+                outputTexture.textContent = currentState.texture.charAt(0).toUpperCase() + currentState.texture.slice(1);
+
+                // Update texture buttons visual feedback
+                document.querySelectorAll('.texture-option').forEach(btn => {
+                    if (btn.dataset.texture === currentState.texture) {
+                        btn.classList.add('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                        btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                    } else {
+                        btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'border-indigo-300');
+                        btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                    }
+                });
+
+                 // Update color buttons visual feedback
+                document.querySelectorAll('.color-option').forEach(btn => {
+                    if (btn.dataset.color === currentState.color) {
+                         btn.classList.add('border-indigo-500');
+                         btn.classList.remove('border-transparent');
+                    } else {
+                        btn.classList.remove('border-indigo-500');
+                        btn.classList.add('border-transparent');
+                    }
+                });
+            };
+
+            // Event Listeners
+            document.querySelectorAll('.color-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentState.color = btn.dataset.color;
+                    updateUI();
+                });
+            });
+
+            document.querySelectorAll('.texture-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentState.texture = btn.dataset.texture;
+                    updateUI();
+                });
+            });
+            
+            shapeSelect.addEventListener('change', (e) => {
+                currentState.shape = e.target.value;
+                updateUI();
+            });
+
+            moodSlider.addEventListener('input', (e) => {
+                currentState.mood = parseInt(e.target.value);
+                updateUI();
+            });
+
+            downloadButton.addEventListener('click', () => {
+                alert(`Anda akan mengunduh aset 3D: ${outputShape.textContent}, Warna: ${outputColorText.textContent}, Tekstur: ${outputTexture.textContent}. (Simulasi Download Berhasil!)`);
+            });
+            
+            // Initial call to set up the default state
+            updateUI();
+        });
+    </script>
+
+</body>
+</html>
